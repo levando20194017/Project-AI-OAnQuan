@@ -1,18 +1,18 @@
-package game.lib.ai;
+package game.lib.AI;
 
 import game.model.Direction;
 
 public class ComputerDecisionResult {
-    public ComputerDecisionResult(int index, Direction d) {
-        this.index = index;
+    public int squareIndex;
+    public Direction dir;
+
+    public ComputerDecisionResult(int squareIndex, Direction d) {
+        this.squareIndex = squareIndex;
         this.dir = d;
     }
 
-    public int index;
-    public Direction dir;
-
     @Override
     public String toString() {
-        return "should move at: " + index + " , dir: " + dir;
+        return "should move at: " + squareIndex + " , dir: " + dir;
     }
 }
