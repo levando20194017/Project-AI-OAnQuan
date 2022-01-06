@@ -3,14 +3,16 @@ package game.model;
 import game.lib.AI.ComputerDecisionResult;
 
 public interface IGameModel extends Iterable<GameSquare> {
-	// ?????????
-	boolean stillHasOnBoardMilitary(Player player);
+	// Check if the player has it's military on the board
+	boolean stillHaveMilitaryOnBoard(Player player);
 
 	// NORMAL , PLAYER1_WIN , PLAYER2_WIN , DRAW
 	GameState getGameState();
 
+	// when end game, compare their militaries to select the winner
 	Player winner(Player player1, Player player2);
 
+	// Check if the number of militaries on boss square is 0
 	boolean isEndGame();
 
 	void getRewardInSquare(Player player, int index);
