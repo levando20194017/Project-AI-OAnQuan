@@ -3,18 +3,19 @@ package game.model;
 public class Player {
 	public static final Player PLAYER_1 = new Player("Player 1", 0);
 	public static final Player PLAYER_2 = new Player("Player 2", 0);
-	
-	public int miltaries;
+
 	private String name;
+	public int militaries; // the mark of player
 	private boolean isComputer;
 
-	public Player(String name, int miltaries) {
+	public Player(String name, int militaries) {
 		super();
 		this.name = name;
-		this.miltaries = miltaries;
+		this.militaries = militaries;
 	}
+
 	public Player cpy() {
-		Player rs = new Player(this.name, this.miltaries);
+		Player rs = new Player(this.name, this.militaries);
 		rs.isComputer = this.isComputer;
 		return rs;
 	}
@@ -26,6 +27,7 @@ public class Player {
 	public boolean isComputer() {
 		return isComputer;
 	}
+
 	public void setComputer(boolean b) {
 		this.isComputer = b;
 	}
@@ -40,11 +42,10 @@ public class Player {
 
 	@Override
 	public String toString() {
-		return "(" + getName() + " " + miltaries + ")";
+		return "(" + getName() + " " + militaries + ")";
 	}
 
 	public void setName(String string) {
 		this.name = string;
 	}
 }
-
