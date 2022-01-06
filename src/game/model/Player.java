@@ -8,28 +8,17 @@ public class Player {
 	public int militaries; // the mark of player
 	private boolean isComputer;
 
+	// constructor
 	public Player(String name, int militaries) {
 		super();
 		this.name = name;
 		this.militaries = militaries;
 	}
 
-	public Player cpy() {
+	public Player currentPlayer() {
 		Player rs = new Player(this.name, this.militaries);
 		rs.isComputer = this.isComputer;
 		return rs;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public boolean isComputer() {
-		return isComputer;
-	}
-
-	public void setComputer(boolean b) {
-		this.isComputer = b;
 	}
 
 	@Override
@@ -45,7 +34,19 @@ public class Player {
 		return "(" + getName() + " " + militaries + ")";
 	}
 
+	public boolean isComputer() {
+		return isComputer;
+	}
+
+	public void setComputer(boolean b) {
+		this.isComputer = b;
+	}
+
 	public void setName(String string) {
 		this.name = string;
+	}
+
+	public String getName() {
+		return name;
 	}
 }
