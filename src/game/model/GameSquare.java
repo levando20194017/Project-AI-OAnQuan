@@ -1,53 +1,52 @@
 package game.model;
 
 public class GameSquare {
+	private int squareIndex;
+	private Player player;
+	private int militaries;
+	private boolean isBossSquare;
 
-    private int index;
-    private Player player;
-    private int miltaries;
-    private boolean isBossSquare;
+	// constructor
+	public GameSquare(int squareIndex, Player player, int militaries, boolean isBossSquare) {
+		this.squareIndex = squareIndex;
+		this.player = player;
+		this.militaries = militaries;
+		this.isBossSquare = isBossSquare;
+	}
 
-    public GameSquare(int index, Player player, int miltaries, boolean isBossSquare) {
-        this.index = index;
-        this.player = player;
-        this.miltaries = miltaries;
-        this.isBossSquare = isBossSquare;
-    }
+	public GameSquare(GameSquare gameSquare) {
+		this.squareIndex = gameSquare.squareIndex;
+		this.player = gameSquare.player.currentPlayer();
+		this.militaries = gameSquare.militaries;
+		this.isBossSquare = gameSquare.isBossSquare;
+	}
 
-    public GameSquare(GameSquare gameSquare) {
-        this.index = gameSquare.index;
-        this.player = gameSquare.player.currentPlayer();
-        this.miltaries = gameSquare.miltaries;
-        this.isBossSquare = gameSquare.isBossSquare;
-    }
+	@Override
+	public String toString() {
+		return squareIndex + " - " + militaries;
+	}
 
-    public int getIndex() {
-        return index;
-    }
+	public int getSquareIndex() {
+		return squareIndex;
+	}
 
-    public Player getPlayer() {
-        return player;
-    }
+	public Player getPlayer() {
+		return player;
+	}
 
-    public int getMilitaries() {
-        return miltaries;
-    }
+	public int getMilitaries() {
+		return militaries;
+	}
 
-    public void setMiltaries(int miltaries) {
-        this.miltaries = miltaries;
-    }
+	public void setMilitaries(int militaries) {
+		this.militaries = militaries;
+	}
 
-    public boolean isBossSquare() {
-        return isBossSquare;
-    }
+	public boolean isBossSquare() {
+		return isBossSquare;
+	}
 
-    public void setBossSquare(boolean v) {
-        this.isBossSquare = v;
-    }
-
-    @Override
-    public String toString() {
-        // TODO Auto-generated method stub
-        return index + " - " + miltaries;
-    }
+	public void setBossSquare(boolean v) {
+		this.isBossSquare = v;
+	}
 }
