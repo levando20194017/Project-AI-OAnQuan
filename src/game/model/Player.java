@@ -26,9 +26,11 @@ public class Player {
 		if (obj == null || !(obj instanceof Player))
 			return false;
 		Player o = (Player) obj;
+		// Java String
 		return this.name.equalsIgnoreCase(o.name);
 	}
 
+	// return the information of player
 	@Override
 	public String toString() {
 		return "(" + getName() + " " + militaries + ")";
