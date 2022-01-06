@@ -6,9 +6,9 @@ public class ComputerDecisionResult {
     public int squareIndex;
     public Direction dir;
 
-    public ComputerDecisionResult(int squareIndex, Direction d) {
+    public ComputerDecisionResult(int squareIndex, Direction dir) {
         this.squareIndex = squareIndex;
-        this.dir = d;
+        this.dir = dir;
     }
 
     @Override
