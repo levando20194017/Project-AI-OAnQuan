@@ -26,6 +26,7 @@ public class GameSquare {
 		return squareIndex + " - " + militaries;
 	}
 
+	// getter
 	public int getSquareIndex() {
 		return squareIndex;
 	}
@@ -38,6 +39,7 @@ public class GameSquare {
 		return militaries;
 	}
 
+	// setter
 	public void setMilitaries(int militaries) {
 		this.militaries = militaries;
 	}
