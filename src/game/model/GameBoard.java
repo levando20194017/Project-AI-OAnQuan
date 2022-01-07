@@ -8,14 +8,14 @@ import game.lib.AI.ComputerDecisionResult;
 import game.lib.AI.MiniMaxComputer;
 
 public class GameBoard implements IGameModel {
-	private GameSquare[] gameBoard;
-	private int index = 0;
+	private int squareIndex = 0;
+	private int level = 1; // related (easy, medium, hard, super hard)
+	private GameSquare[] gameBoard; // contains the info of 12 squares
 	private Direction loopDirection;
 	private LinkNode[] linkedNodeSquare;
 	private LinkNode lastestLooped = null;
 	private Direction lastestDirectionLooped = null;
 	private AutoSearching computer;
-	private int level = 1;
 
 	public GameBoard() {
 		linkedNodeSquare = new LinkNode[12];
@@ -23,20 +23,22 @@ public class GameBoard implements IGameModel {
 	}
 
 	private void initGameSquares() {
-		GameSquare BOSS_1 = new GameSquare(0, Player.PLAYER_2, 10, true);
+		// generate data for each square
+		GameSquare BOSS_1 = new GameSquare(0, Player.PLAYER_2, 10, true); // one boss corresponds to ten militaries
 		GameSquare M1_1 = new GameSquare(1, Player.PLAYER_2, 5, false);
 		GameSquare M2_1 = new GameSquare(2, Player.PLAYER_2, 5, false);
 		GameSquare M3_1 = new GameSquare(3, Player.PLAYER_2, 5, false);
 		GameSquare M4_1 = new GameSquare(4, Player.PLAYER_2, 5, false);
 		GameSquare M5_1 = new GameSquare(5, Player.PLAYER_2, 5, false);
 
-		GameSquare BOSS_2 = new GameSquare(6, Player.PLAYER_1, 10, true);
+		GameSquare BOSS_2 = new GameSquare(6, Player.PLAYER_1, 10, true); // one boss corresponds to ten militaries
 		GameSquare M1_2 = new GameSquare(7, Player.PLAYER_1, 5, false);
 		GameSquare M2_2 = new GameSquare(8, Player.PLAYER_1, 5, false);
 		GameSquare M3_2 = new GameSquare(9, Player.PLAYER_1, 5, false);
 		GameSquare M4_2 = new GameSquare(10, Player.PLAYER_1, 5, false);
 		GameSquare M5_2 = new GameSquare(11, Player.PLAYER_1, 5, false);
 
+		// create an array to store the information of all the squares
 		gameBoard = new GameSquare[12];
 		gameBoard[0] = BOSS_1;
 		gameBoard[1] = M1_1;
@@ -50,6 +52,7 @@ public class GameBoard implements IGameModel {
 		gameBoard[9] = M3_2;
 		gameBoard[10] = M2_2;
 		gameBoard[11] = M1_2;
+
 		initLinkedGameBoard();
 	}
 
@@ -169,7 +172,7 @@ public class GameBoard implements IGameModel {
 
 	@Override
 	public GameSquare getLastestLoopedSquare() {
-		int lastIndex = lastestLooped.square.getIndex();
+		int lastsquareIndex = lastestLooped.square.getIndex();
 		if (lastIndex > gameBoard[0].getIndex() && lastIndex < gameBoard[6].getIndex()) {
 			if (getLastestLoopedDirection() == Direction.LEFT) {
 				return lastestLooped.bw.square;
@@ -253,7 +256,7 @@ public class GameBoard implements IGameModel {
 	@Override
 	public void setIndexLoop(int index) {
 		lastestLooped = null;
-		this.index = index;
+		this.squareIndex = index;
 		// System.out.println("set loop indexAt " + index);
 	}
 
@@ -303,7 +306,7 @@ public class GameBoard implements IGameModel {
 		res.gameBoard[10] = new GameSquare(gameBoard[10]);
 		res.gameBoard[11] = new GameSquare(gameBoard[11]);
 		res.initLinkedGameBoard();
-		res.index = this.index;
+		res.squareIndex = this.index;
 		return res;
 	}
 
