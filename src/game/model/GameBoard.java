@@ -11,11 +11,21 @@ public class GameBoard implements IGameModel {
 	private int squareIndex = 0;
 	private int level = 1; // related (easy, medium, hard, super hard)
 	private GameSquare[] gameBoard; // contains the info of 12 squares
+	private LinkNode[] linkedNodeSquare; // link a square with 2 adjacent squares
 	private Direction loopDirection;
-	private LinkNode[] linkedNodeSquare;
 	private LinkNode lastestLooped = null;
 	private Direction lastestDirectionLooped = null;
 	private AutoSearching computer;
+
+	class LinkNode {
+		LinkNode fw;
+		LinkNode bw;
+		GameSquare square;
+
+		LinkNode(GameSquare s) {
+			this.square = s;
+		}
+	}
 
 	public GameBoard() {
 		linkedNodeSquare = new LinkNode[12];
@@ -71,31 +81,40 @@ public class GameBoard implements IGameModel {
 		linkedNodeSquare[10] = new LinkNode(gameBoard[8]);// m4-2
 		linkedNodeSquare[11] = new LinkNode(gameBoard[7]);// m5-2
 
+		// square 0
 		linkedNodeSquare[0].fw = linkedNodeSquare[1];
-		linkedNodeSquare[1].fw = linkedNodeSquare[2];
-		linkedNodeSquare[2].fw = linkedNodeSquare[3];
-		linkedNodeSquare[3].fw = linkedNodeSquare[4];
-		linkedNodeSquare[4].fw = linkedNodeSquare[5];
-		linkedNodeSquare[5].fw = linkedNodeSquare[6];
 		linkedNodeSquare[6].fw = linkedNodeSquare[11];
+
+		// square 1
+		linkedNodeSquare[1].fw = linkedNodeSquare[2];
+		linkedNodeSquare[1].bw = linkedNodeSquare[0];
+		// square 2
+		linkedNodeSquare[2].fw = linkedNodeSquare[3];
+		linkedNodeSquare[2].bw = linkedNodeSquare[1];
+		// square 3
+		linkedNodeSquare[3].fw = linkedNodeSquare[4];
+		linkedNodeSquare[3].bw = linkedNodeSquare[2];
+		// square 4
+		linkedNodeSquare[4].fw = linkedNodeSquare[5];
+		linkedNodeSquare[4].bw = linkedNodeSquare[3];
+		// square 5
+		linkedNodeSquare[5].fw = linkedNodeSquare[6];
+		linkedNodeSquare[5].bw = linkedNodeSquare[4];
+		// square 7
+		linkedNodeSquare[7].fw = linkedNodeSquare[0];
+		linkedNodeSquare[7].bw = linkedNodeSquare[8];
+		// square 8
 		linkedNodeSquare[11].fw = linkedNodeSquare[10];
 		linkedNodeSquare[10].fw = linkedNodeSquare[9];
 		linkedNodeSquare[9].fw = linkedNodeSquare[8];
 		linkedNodeSquare[8].fw = linkedNodeSquare[7];
-		linkedNodeSquare[7].fw = linkedNodeSquare[0];
 
 		linkedNodeSquare[0].bw = linkedNodeSquare[7];
-		linkedNodeSquare[7].bw = linkedNodeSquare[8];
 		linkedNodeSquare[8].bw = linkedNodeSquare[9];
 		linkedNodeSquare[9].bw = linkedNodeSquare[10];
 		linkedNodeSquare[10].bw = linkedNodeSquare[11];
 		linkedNodeSquare[11].bw = linkedNodeSquare[6];
 		linkedNodeSquare[6].bw = linkedNodeSquare[5];
-		linkedNodeSquare[5].bw = linkedNodeSquare[4];
-		linkedNodeSquare[4].bw = linkedNodeSquare[3];
-		linkedNodeSquare[3].bw = linkedNodeSquare[2];
-		linkedNodeSquare[2].bw = linkedNodeSquare[1];
-		linkedNodeSquare[1].bw = linkedNodeSquare[0];
 
 	}
 
@@ -258,16 +277,6 @@ public class GameBoard implements IGameModel {
 		lastestLooped = null;
 		this.squareIndex = index;
 		// System.out.println("set loop indexAt " + index);
-	}
-
-	class LinkNode {
-		LinkNode fw;
-		LinkNode bw;
-		GameSquare square;
-
-		LinkNode(GameSquare s) {
-			this.square = s;
-		}
 	}
 
 	@Override
