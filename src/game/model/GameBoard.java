@@ -81,10 +81,11 @@ public class GameBoard implements IGameModel {
 		linkedNodeSquare[10] = new LinkNode(gameBoard[8]);// m4-2
 		linkedNodeSquare[11] = new LinkNode(gameBoard[7]);// m5-2
 
-		// square 0
+		// square 0 & 6
 		linkedNodeSquare[0].fw = linkedNodeSquare[1];
+		linkedNodeSquare[0].bw = linkedNodeSquare[7];
 		linkedNodeSquare[6].fw = linkedNodeSquare[11];
-
+		linkedNodeSquare[6].bw = linkedNodeSquare[5];
 		// square 1
 		linkedNodeSquare[1].fw = linkedNodeSquare[2];
 		linkedNodeSquare[1].bw = linkedNodeSquare[0];
@@ -104,18 +105,17 @@ public class GameBoard implements IGameModel {
 		linkedNodeSquare[7].fw = linkedNodeSquare[0];
 		linkedNodeSquare[7].bw = linkedNodeSquare[8];
 		// square 8
-		linkedNodeSquare[11].fw = linkedNodeSquare[10];
-		linkedNodeSquare[10].fw = linkedNodeSquare[9];
-		linkedNodeSquare[9].fw = linkedNodeSquare[8];
 		linkedNodeSquare[8].fw = linkedNodeSquare[7];
-
-		linkedNodeSquare[0].bw = linkedNodeSquare[7];
 		linkedNodeSquare[8].bw = linkedNodeSquare[9];
+		// square 9
+		linkedNodeSquare[9].fw = linkedNodeSquare[8];
 		linkedNodeSquare[9].bw = linkedNodeSquare[10];
+		// square 10
+		linkedNodeSquare[10].fw = linkedNodeSquare[9];
 		linkedNodeSquare[10].bw = linkedNodeSquare[11];
+		// square 11
+		linkedNodeSquare[11].fw = linkedNodeSquare[10];
 		linkedNodeSquare[11].bw = linkedNodeSquare[6];
-		linkedNodeSquare[6].bw = linkedNodeSquare[5];
-
 	}
 
 	@Override
