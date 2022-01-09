@@ -118,6 +118,7 @@ public class GameBoard implements IGameModel {
 
 	}
 
+	// return player winner from militaries
 	@Override
 	public Player winner(Player player1, Player player2) {
 		int militariesP1 = getAllMilitaryOfPlayer(player1);
@@ -125,6 +126,7 @@ public class GameBoard implements IGameModel {
 		return (militariesP1 > militariesP2 ? player1 : player2);
 	}
 
+	// return boolean if squareindex have Mili
 	@Override
 	public boolean stillHaveMilitaryOnBoard(Player player) {
 		int militaries = 0;
@@ -136,6 +138,7 @@ public class GameBoard implements IGameModel {
 		return militaries > 0;
 	}
 
+	// trạng thái kết thúc nếu số quân ở cả 2 ô quan đều bằng 0
 	@Override
 	public boolean isEndGame() {
 		return (linkedNodeSquare[0].square.getMilitaries() + linkedNodeSquare[6].square.getMilitaries()) == 0;
@@ -143,21 +146,24 @@ public class GameBoard implements IGameModel {
 
 	@Override
 	public GameState getGameState() {
+		// ván đấu chưa kết thúc
 		if (!isEndGame()) {
 			return GameState.NORMAL;
 		}
+		// trạng thái hòa
 		if (isDraw())
 			return GameState.DRAW;
-
-		return (whoWin(Player.PLAYER_1, Player.PLAYER_2) == Player.PLAYER_1 ? GameState.PLAYER1_WIN
+		// trả về người chơi chiến thắng
+		return (winner(Player.PLAYER_1, Player.PLAYER_2) == Player.PLAYER_1 ? GameState.PLAYER1_WIN
 				: GameState.PLAYER2_WIN);
 	}
 
+	// tổng quân ở ô bên mình (ko tính ô quan) và số quân ăn được
 	private int getAllMilitaryOfPlayer(Player p) {
 		int totalmilitariesP = 0;
 		for (GameSquare square : gameBoard) {
 			// make sure this square isn't boss
-			if (square.getIndex() != 0 && square.getIndex() != 6 && square.getPlayer() == p)
+			if (square.getSquareIndex() != 0 && square.getSquareIndex() != 6 && square.getPlayer() == p)
 				totalmilitariesP += square.getMilitaries();
 		}
 		// includes reward military
@@ -165,34 +171,40 @@ public class GameBoard implements IGameModel {
 		return totalmilitariesP;
 	}
 
+	// trả về kết quả có hòa hay ko
 	private boolean isDraw() {
 		int totalmilitariesP1 = getAllMilitaryOfPlayer(Player.PLAYER_1);
 		int totalmilitariesP2 = getAllMilitaryOfPlayer(Player.PLAYER_2);
 		return totalmilitariesP1 == totalmilitariesP2;
 	}
 
+	// phần thưởng
 	@Override
 	public void getRewardInSquare(Player player, int index) {
 		player.militaries += linkedNodeSquare[index].square.getMilitaries();
-		linkedNodeSquare[index].square.setmilitaries(0);
+		// linkedNodeSquare[index].square.getMilitaries() số quân trông ô ở vị trí index
+		// sau khi nhận được phần thưởng thì set lại số quân của ô đấy về 0
+		linkedNodeSquare[index].square.setMilitaries(0);
 	}
 
+	// số quân ở vị trí index
 	@Override
 	public int getMilitaryAt(int index) {
 		return linkedNodeSquare[index].square.getMilitaries();
 	}
 
+	// set số lượng quân của ô ở vị trí index về 0
 	@Override
 	public void removeMiltaryAt(int index) {
 		if (index < 0 || index >= gameBoard.length)
 			return;
-		linkedNodeSquare[index].square.setmilitaries(0);
+		linkedNodeSquare[index].square.setMilitaries(0);
 	}
 
 	@Override
 	public GameSquare getLastestLoopedSquare() {
-		int lastsquareIndex = lastestLooped.square.getIndex();
-		if (lastIndex > gameBoard[0].getIndex() && lastIndex < gameBoard[6].getIndex()) {
+		int lastSquareIndex = lastestLooped.square.getSquareIndex();
+		if (lastSquareIndex > gameBoard[0].getSquareIndex() && lastSquareIndex < gameBoard[6].getSquareIndex()) {
 			if (getLastestLoopedDirection() == Direction.LEFT) {
 				return lastestLooped.bw.square;
 			} else
