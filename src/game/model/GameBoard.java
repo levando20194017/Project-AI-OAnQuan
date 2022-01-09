@@ -2,10 +2,10 @@ package game.model;
 
 import java.util.Iterator;
 
-import game.lib.AI.AlphaBetaPruningComputer;
-import game.lib.AI.AutoSearching;
-import game.lib.AI.ComputerDecisionResult;
-import game.lib.AI.MiniMaxComputer;
+ import game.lib.AI.AlphaBetaPruningComputer;
+ import game.lib.AI.AutoSearching;
+ import game.lib.AI.ComputerDecisionResult;
+ import game.lib.AI.MiniMaxComputer;
 
 public class GameBoard implements IGameModel {
 	private int squareIndex = 0;
@@ -15,7 +15,7 @@ public class GameBoard implements IGameModel {
 	private Direction loopDirection;
 	private LinkNode lastestLooped = null;
 	private Direction lastestDirectionLooped = null;
-	private AutoSearching computer;
+	// private AutoSearching computer;
 
 	class LinkNode {
 		LinkNode fw;
@@ -81,11 +81,10 @@ public class GameBoard implements IGameModel {
 		linkedNodeSquare[10] = new LinkNode(gameBoard[8]);// m4-2
 		linkedNodeSquare[11] = new LinkNode(gameBoard[7]);// m5-2
 
-		// square 0 & 6
+		// square 0
 		linkedNodeSquare[0].fw = linkedNodeSquare[1];
-		linkedNodeSquare[0].bw = linkedNodeSquare[7];
 		linkedNodeSquare[6].fw = linkedNodeSquare[11];
-		linkedNodeSquare[6].bw = linkedNodeSquare[5];
+
 		// square 1
 		linkedNodeSquare[1].fw = linkedNodeSquare[2];
 		linkedNodeSquare[1].bw = linkedNodeSquare[0];
@@ -105,19 +104,21 @@ public class GameBoard implements IGameModel {
 		linkedNodeSquare[7].fw = linkedNodeSquare[0];
 		linkedNodeSquare[7].bw = linkedNodeSquare[8];
 		// square 8
-		linkedNodeSquare[8].fw = linkedNodeSquare[7];
-		linkedNodeSquare[8].bw = linkedNodeSquare[9];
-		// square 9
-		linkedNodeSquare[9].fw = linkedNodeSquare[8];
-		linkedNodeSquare[9].bw = linkedNodeSquare[10];
-		// square 10
-		linkedNodeSquare[10].fw = linkedNodeSquare[9];
-		linkedNodeSquare[10].bw = linkedNodeSquare[11];
-		// square 11
 		linkedNodeSquare[11].fw = linkedNodeSquare[10];
+		linkedNodeSquare[10].fw = linkedNodeSquare[9];
+		linkedNodeSquare[9].fw = linkedNodeSquare[8];
+		linkedNodeSquare[8].fw = linkedNodeSquare[7];
+
+		linkedNodeSquare[0].bw = linkedNodeSquare[7];
+		linkedNodeSquare[8].bw = linkedNodeSquare[9];
+		linkedNodeSquare[9].bw = linkedNodeSquare[10];
+		linkedNodeSquare[10].bw = linkedNodeSquare[11];
 		linkedNodeSquare[11].bw = linkedNodeSquare[6];
+		linkedNodeSquare[6].bw = linkedNodeSquare[5];
+
 	}
 
+	// return player winner from militaries
 	@Override
 	public Player winner(Player player1, Player player2) {
 		int militariesP1 = getAllMilitaryOfPlayer(player1);
@@ -125,6 +126,7 @@ public class GameBoard implements IGameModel {
 		return (militariesP1 > militariesP2 ? player1 : player2);
 	}
 
+	// return boolean if squareindex have Mili
 	@Override
 	public boolean stillHaveMilitaryOnBoard(Player player) {
 		int militaries = 0;
@@ -136,6 +138,7 @@ public class GameBoard implements IGameModel {
 		return militaries > 0;
 	}
 
+	// trạng thái kết thúc nếu số quân ở cả 2 ô quan đều bằng 0
 	@Override
 	public boolean isEndGame() {
 		return (linkedNodeSquare[0].square.getMilitaries() + linkedNodeSquare[6].square.getMilitaries()) == 0;
@@ -143,21 +146,24 @@ public class GameBoard implements IGameModel {
 
 	@Override
 	public GameState getGameState() {
+		// ván đấu chưa kết thúc
 		if (!isEndGame()) {
 			return GameState.NORMAL;
 		}
+		// trạng thái hòa
 		if (isDraw())
 			return GameState.DRAW;
-
-		return (whoWin(Player.PLAYER_1, Player.PLAYER_2) == Player.PLAYER_1 ? GameState.PLAYER1_WIN
+		// trả về người chơi chiến thắng
+		return (winner(Player.PLAYER_1, Player.PLAYER_2) == Player.PLAYER_1 ? GameState.PLAYER1_WIN
 				: GameState.PLAYER2_WIN);
 	}
 
+	// tổng quân ở ô bên mình (ko tính ô quan) và số quân ăn được
 	private int getAllMilitaryOfPlayer(Player p) {
 		int totalmilitariesP = 0;
 		for (GameSquare square : gameBoard) {
 			// make sure this square isn't boss
-			if (square.getIndex() != 0 && square.getIndex() != 6 && square.getPlayer() == p)
+			if (square.getSquareIndex() != 0 && square.getSquareIndex() != 6 && square.getPlayer() == p)
 				totalmilitariesP += square.getMilitaries();
 		}
 		// includes reward military
@@ -165,34 +171,41 @@ public class GameBoard implements IGameModel {
 		return totalmilitariesP;
 	}
 
+	// trả về kết quả có hòa hay ko
 	private boolean isDraw() {
 		int totalmilitariesP1 = getAllMilitaryOfPlayer(Player.PLAYER_1);
 		int totalmilitariesP2 = getAllMilitaryOfPlayer(Player.PLAYER_2);
 		return totalmilitariesP1 == totalmilitariesP2;
 	}
 
+	// phần thưởng
 	@Override
 	public void getRewardInSquare(Player player, int index) {
 		player.militaries += linkedNodeSquare[index].square.getMilitaries();
-		linkedNodeSquare[index].square.setmilitaries(0);
+		// linkedNodeSquare[index].square.getMilitaries() số quân trông ô ở vị trí index
+		// sau khi nhận được phần thưởng thì set lại số quân của ô đấy về 0
+		linkedNodeSquare[index].square.setMilitaries(0);
 	}
 
+	// số quân ở vị trí index
 	@Override
 	public int getMilitaryAt(int index) {
 		return linkedNodeSquare[index].square.getMilitaries();
 	}
 
+	// set số lượng quân của ô ở vị trí index về 0
 	@Override
 	public void removeMiltaryAt(int index) {
 		if (index < 0 || index >= gameBoard.length)
 			return;
-		linkedNodeSquare[index].square.setmilitaries(0);
+		linkedNodeSquare[index].square.setMilitaries(0);
 	}
 
+	// ?????????
 	@Override
 	public GameSquare getLastestLoopedSquare() {
-		int lastsquareIndex = lastestLooped.square.getIndex();
-		if (lastIndex > gameBoard[0].getIndex() && lastIndex < gameBoard[6].getIndex()) {
+		int lastSquareIndex = lastestLooped.square.getSquareIndex();
+		if (lastSquareIndex > gameBoard[0].getSquareIndex() && lastSquareIndex < gameBoard[6].getSquareIndex()) {
 			if (getLastestLoopedDirection() == Direction.LEFT) {
 				return lastestLooped.bw.square;
 			} else
@@ -207,22 +220,26 @@ public class GameBoard implements IGameModel {
 		}
 	}
 
+	// thêm quân vào vị trí index với số lượng numberMiltary
 	@Override
-	public void addmilitaries(int index, int numberMiltary) {
-		linkedNodeSquare[index].square.setmilitaries(gameBoard[index].getMilitaries() + numberMiltary);
+	public void addMiltaries(int index, int numberMiltary) {
+		linkedNodeSquare[index].square.setMilitaries(gameBoard[index].getMilitaries() + numberMiltary);
 	}
 
+	// trả về hướng đi cuối cùng được lặp lại
 	@Override
 	public Direction getLastestLoopedDirection() {
 		return lastestDirectionLooped;
 	}
 
+	// thiết lập hướng đi ban đầu và kế tiếp
 	@Override
 	public void setLoopDirection(Direction direction) {
 		// System.out.println("first set direction loop " + direction);
 		this.loopDirection = direction;
 		this.lastestDirectionLooped = direction;
 	}
+	// ??????????
 
 	@Override
 	public Iterator<GameSquare> iterator() {
@@ -237,9 +254,9 @@ public class GameBoard implements IGameModel {
 			public GameSquare next() {
 				GameSquare ret = null;
 				if (lastestLooped == null) {
-					lastestLooped = linkedNodeSquare[index];
+					lastestLooped = linkedNodeSquare[squareIndex];
 				}
-				if (index > 0 && index < 6) {
+				if (squareIndex > 0 && squareIndex < 6) {
 					if (loopDirection == Direction.LEFT) {
 						ret = lastestLooped.bw.square;
 						lastestLooped = lastestLooped.bw;
@@ -259,7 +276,7 @@ public class GameBoard implements IGameModel {
 
 					}
 				}
-				if (lastestLooped.square.getIndex() == 0 || lastestLooped.square.getIndex() == 6) {
+				if (lastestLooped.square.getSquareIndex() == 0 || lastestLooped.square.getSquareIndex() == 6) {
 					// System.out.println("before " + lastestDirectionLooped + " after "
 					// + lastestDirectionLooped.getOppositeDirection());
 					lastestDirectionLooped = lastestDirectionLooped.getOppositeDirection();
@@ -272,6 +289,7 @@ public class GameBoard implements IGameModel {
 
 	}
 
+	////////// thiết lập quân sau khi kết thúc vòng lặp???
 	@Override
 	public void setIndexLoop(int index) {
 		lastestLooped = null;
@@ -279,11 +297,13 @@ public class GameBoard implements IGameModel {
 		// System.out.println("set loop indexAt " + index);
 	}
 
+	// mảng chứa các phần tử
 	@Override
 	public GameSquare[] getGameSquares() {
 		return gameBoard;
 	}
 
+	//// ????????
 	@Override
 	public boolean isValidMove(int c, int r, Player curPlayer) {
 		if (r == 0 && curPlayer == Player.PLAYER_2)
@@ -293,6 +313,7 @@ public class GameBoard implements IGameModel {
 		return false;
 	}
 
+	// thiết lập lại game mới
 	@Override
 	public void reAssign() {
 		initGameSquares();
@@ -300,6 +321,7 @@ public class GameBoard implements IGameModel {
 		Player.PLAYER_2.militaries = 0;
 	}
 
+	// thiết lập lại game mới
 	public GameBoard cpy() {
 		GameBoard res = new GameBoard();
 		res.gameBoard[0] = new GameSquare(gameBoard[0]);
@@ -315,7 +337,7 @@ public class GameBoard implements IGameModel {
 		res.gameBoard[10] = new GameSquare(gameBoard[10]);
 		res.gameBoard[11] = new GameSquare(gameBoard[11]);
 		res.initLinkedGameBoard();
-		res.squareIndex = this.index;
+		res.squareIndex = this.squareIndex;
 		return res;
 	}
 
@@ -328,6 +350,7 @@ public class GameBoard implements IGameModel {
 		return s;
 	}
 
+	// ??????????????
 	@Override
 	public ComputerDecisionResult autoSearch() {
 		ComputerDecisionResult rs = null;
@@ -343,24 +366,59 @@ public class GameBoard implements IGameModel {
 		return rs;
 	}
 
+	// thiết lập cấp độ cho game
 	@Override
 	public void setGameLevel(int inputGameLevel) {
 		this.level = inputGameLevel;
 	}
 
+	// nếu đến lượt chơi của người nào, mà ko còn quân xuất hiện ở phía người đấy
+	// thì người đấy phải lấy quân của mình để rải ra mỗi ô
+	// trường hợp nếu số quân < 5 thì trò chơi kết thúc
 	@Override
 	public void outMilitaries(Player curPlayer) {
 		curPlayer.militaries -= 5;
 		if (curPlayer == Player.PLAYER_1) {
 			for (int i = 7; i < 7 + 5; i++) {
-				addmilitaries(i, 1);
+				addMiltaries(i, 1);
 			}
 		}
 
 		if (curPlayer == Player.PLAYER_2) {
 			for (int i = 1; i < 1 + 5; i++) {
-				addmilitaries(i, 1);
+				addMiltaries(i, 1);
 			}
 		}
+
+		// if (curPlayer.miltaries >= 5) {
+		// curPlayer.miltaries -= 5;
+		// if (curPlayer == Player.PLAYER_1) {
+		// for (int i = 7; i < 7 + 5; i++) {
+		// addMiltaries(i, 1);
+		// }
+		// }
+
+		// if (curPlayer == Player.PLAYER_2) {
+		// for (int i = 1; i < 1 + 5; i++) {
+		// addMiltaries(i, 1);
+		// }
+		// }
+		// } else {
+		// int markNumber = curPlayer.miltaries;
+		// curPlayer.miltaries = 0;
+		// if (curPlayer == Player.PLAYER_1) {
+		// Player.PLAYER_2.miltaries += 5 - markNumber;
+		// for (int i = 7; i < 7 + 5; i++) {
+		// addMiltaries(i, 1);
+		// }
+		// }
+
+		// if (curPlayer == Player.PLAYER_2) {
+		// Player.PLAYER_1.miltaries += 5 - markNumber;
+		// for (int i = 1; i < 1 + 5; i++) {
+		// addMiltaries(i, 1);
+		// }
+		// }
+		// }
 	}
 }
