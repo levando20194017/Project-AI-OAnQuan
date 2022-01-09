@@ -33,7 +33,10 @@ public class GameView extends JPanel implements IView {
     public GameView(ImageLoader imgLoader, IController c) {
         this.imgLoader = imgLoader;
         this.controller = c;
+        // thiết lập background
         initDefaultBackGround();
+
+        // java component
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -116,6 +119,8 @@ public class GameView extends JPanel implements IView {
         return false;
     }
 
+    // không gian mà mình có thể click vào ô vuông theo chiều ngang
+    // mỗi ô vuông có kích thước 64x64
     private int getMappingCol(int x) {
         int ret = -1;
         if (x > 240 && x <= 240 + 64)
@@ -129,8 +134,12 @@ public class GameView extends JPanel implements IView {
         if (x > 496 && x <= 496 + 64)
             ret = 5;
         return ret;
+        // nếu ret trả về -1. tức là mình click ở ngoài ô vuông thì sẽ hủy trạng thái
+        // mình click vào các ô vuông trước đó
     }
 
+    // không gian mà mình có thể click vào ô vuông theo chiều ngang
+    // mỗi ô vuông có kích thước 64x64
     private int getMappingRow(int y) {
         int ret = -1;
         if (y > 236 && y <= 236 + 64)
@@ -138,8 +147,11 @@ public class GameView extends JPanel implements IView {
         if (y > 300 && y <= 300 + 64)
             ret = 1;
         return ret;
+        // nếu ret trả về -1. tức là mình click ở ngoài ô vuông thì sẽ hủy trạng thái
+        // mình click vào các ô vuông trước đó
     }
 
+    // giới hạn nè
     protected boolean isInBound(int c, int r) {
         // System.out.println(c + " " + r);
         return (c >= 0 && c <= 5) && (r == 0 || r == 1);
@@ -150,8 +162,9 @@ public class GameView extends JPanel implements IView {
         return null;
     }
 
+    // vẽ hướng đi
     protected void drawDirectionButton(int c, int r) {
-        Graphics g = getGraphics();
+        Graphics g = getGraphics(); // java swing component
         g.setColor(Color.red);
         int centerX = ((c * 64) / 2) + offSetX + (c - 1) * (32);
         int centerY = ((r * 64) / 2) + offSetY + (r) * 32;
