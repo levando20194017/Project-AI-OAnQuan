@@ -2,10 +2,10 @@ package game.model;
 
 import java.util.Iterator;
 
-import game.lib.AI.AlphaBetaPruningComputer;
-import game.lib.AI.AutoSearching;
+// import game.lib.AI.AlphaBetaPruningComputer;
+// import game.lib.AI.AutoSearching;
 import game.lib.AI.ComputerDecisionResult;
-import game.lib.AI.MiniMaxComputer;
+// import game.lib.AI.MiniMaxComputer;
 
 public class GameBoard implements IGameModel {
 	private int squareIndex = 0;
@@ -15,7 +15,7 @@ public class GameBoard implements IGameModel {
 	private Direction loopDirection;
 	private LinkNode lastestLooped = null;
 	private Direction lastestDirectionLooped = null;
-	private AutoSearching computer;
+	// private AutoSearching computer;
 
 	class LinkNode {
 		LinkNode fw;
@@ -201,6 +201,7 @@ public class GameBoard implements IGameModel {
 		linkedNodeSquare[index].square.setMilitaries(0);
 	}
 
+	// ?????????
 	@Override
 	public GameSquare getLastestLoopedSquare() {
 		int lastSquareIndex = lastestLooped.square.getSquareIndex();
@@ -219,22 +220,26 @@ public class GameBoard implements IGameModel {
 		}
 	}
 
+	// thêm quân vào vị trí index với số lượng numberMiltary
 	@Override
-	public void addmilitaries(int index, int numberMiltary) {
-		linkedNodeSquare[index].square.setmilitaries(gameBoard[index].getMilitaries() + numberMiltary);
+	public void addMiltaries(int index, int numberMiltary) {
+		linkedNodeSquare[index].square.setMilitaries(gameBoard[index].getMilitaries() + numberMiltary);
 	}
 
+	// trả về hướng đi cuối cùng được lặp lại
 	@Override
 	public Direction getLastestLoopedDirection() {
 		return lastestDirectionLooped;
 	}
 
+	// thiết lập hướng đi ban đầu và kế tiếp
 	@Override
 	public void setLoopDirection(Direction direction) {
 		// System.out.println("first set direction loop " + direction);
 		this.loopDirection = direction;
 		this.lastestDirectionLooped = direction;
 	}
+	// ??????????
 
 	@Override
 	public Iterator<GameSquare> iterator() {
@@ -249,9 +254,9 @@ public class GameBoard implements IGameModel {
 			public GameSquare next() {
 				GameSquare ret = null;
 				if (lastestLooped == null) {
-					lastestLooped = linkedNodeSquare[index];
+					lastestLooped = linkedNodeSquare[squareIndex];
 				}
-				if (index > 0 && index < 6) {
+				if (squareIndex > 0 && squareIndex < 6) {
 					if (loopDirection == Direction.LEFT) {
 						ret = lastestLooped.bw.square;
 						lastestLooped = lastestLooped.bw;
@@ -271,7 +276,7 @@ public class GameBoard implements IGameModel {
 
 					}
 				}
-				if (lastestLooped.square.getIndex() == 0 || lastestLooped.square.getIndex() == 6) {
+				if (lastestLooped.square.getSquareIndex() == 0 || lastestLooped.square.getSquareIndex() == 6) {
 					// System.out.println("before " + lastestDirectionLooped + " after "
 					// + lastestDirectionLooped.getOppositeDirection());
 					lastestDirectionLooped = lastestDirectionLooped.getOppositeDirection();
@@ -284,6 +289,7 @@ public class GameBoard implements IGameModel {
 
 	}
 
+	////////// thiết lập quân sau khi kết thúc vòng lặp???
 	@Override
 	public void setIndexLoop(int index) {
 		lastestLooped = null;
@@ -291,11 +297,13 @@ public class GameBoard implements IGameModel {
 		// System.out.println("set loop indexAt " + index);
 	}
 
+	// mảng chứa các phần tử
 	@Override
 	public GameSquare[] getGameSquares() {
 		return gameBoard;
 	}
 
+	//// ????????
 	@Override
 	public boolean isValidMove(int c, int r, Player curPlayer) {
 		if (r == 0 && curPlayer == Player.PLAYER_2)
@@ -305,6 +313,7 @@ public class GameBoard implements IGameModel {
 		return false;
 	}
 
+	// thiết lập lại game mới
 	@Override
 	public void reAssign() {
 		initGameSquares();
@@ -312,6 +321,7 @@ public class GameBoard implements IGameModel {
 		Player.PLAYER_2.militaries = 0;
 	}
 
+	// thiết lập lại game mới
 	public GameBoard cpy() {
 		GameBoard res = new GameBoard();
 		res.gameBoard[0] = new GameSquare(gameBoard[0]);
@@ -327,7 +337,7 @@ public class GameBoard implements IGameModel {
 		res.gameBoard[10] = new GameSquare(gameBoard[10]);
 		res.gameBoard[11] = new GameSquare(gameBoard[11]);
 		res.initLinkedGameBoard();
-		res.squareIndex = this.index;
+		res.squareIndex = this.squareIndex;
 		return res;
 	}
 
@@ -340,6 +350,7 @@ public class GameBoard implements IGameModel {
 		return s;
 	}
 
+	// ??????????????
 	@Override
 	public ComputerDecisionResult autoSearch() {
 		ComputerDecisionResult rs = null;
@@ -355,24 +366,59 @@ public class GameBoard implements IGameModel {
 		return rs;
 	}
 
+	// thiết lập cấp độ cho game
 	@Override
 	public void setGameLevel(int inputGameLevel) {
 		this.level = inputGameLevel;
 	}
 
+	// nếu đến lượt chơi của người nào, mà ko còn quân xuất hiện ở phía người đấy
+	// thì người đấy phải lấy quân của mình để rải ra mỗi ô
+	// trường hợp nếu số quân < 5 thì trò chơi kết thúc
 	@Override
 	public void outMilitaries(Player curPlayer) {
 		curPlayer.militaries -= 5;
 		if (curPlayer == Player.PLAYER_1) {
 			for (int i = 7; i < 7 + 5; i++) {
-				addmilitaries(i, 1);
+				addMiltaries(i, 1);
 			}
 		}
 
 		if (curPlayer == Player.PLAYER_2) {
 			for (int i = 1; i < 1 + 5; i++) {
-				addmilitaries(i, 1);
+				addMiltaries(i, 1);
 			}
 		}
+
+		// if (curPlayer.miltaries >= 5) {
+		// curPlayer.miltaries -= 5;
+		// if (curPlayer == Player.PLAYER_1) {
+		// for (int i = 7; i < 7 + 5; i++) {
+		// addMiltaries(i, 1);
+		// }
+		// }
+
+		// if (curPlayer == Player.PLAYER_2) {
+		// for (int i = 1; i < 1 + 5; i++) {
+		// addMiltaries(i, 1);
+		// }
+		// }
+		// } else {
+		// int markNumber = curPlayer.miltaries;
+		// curPlayer.miltaries = 0;
+		// if (curPlayer == Player.PLAYER_1) {
+		// Player.PLAYER_2.miltaries += 5 - markNumber;
+		// for (int i = 7; i < 7 + 5; i++) {
+		// addMiltaries(i, 1);
+		// }
+		// }
+
+		// if (curPlayer == Player.PLAYER_2) {
+		// Player.PLAYER_1.miltaries += 5 - markNumber;
+		// for (int i = 1; i < 1 + 5; i++) {
+		// addMiltaries(i, 1);
+		// }
+		// }
+		// }
 	}
 }
