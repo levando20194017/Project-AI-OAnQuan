@@ -2,10 +2,10 @@ package game.model;
 
 import java.util.Iterator;
 
- import game.lib.AI.AlphaBetaPruningComputer;
- import game.lib.AI.AutoSearching;
- import game.lib.AI.ComputerDecisionResult;
- import game.lib.AI.MiniMaxComputer;
+import game.lib.AI.AlphaBetaPruningComputer;
+import game.lib.AI.AutoSearching;
+import game.lib.AI.ComputerDecisionResult;
+import game.lib.AI.MiniMaxComputer;
 
 public class GameBoard implements IGameModel {
 	private int squareIndex = 0;
@@ -422,3 +422,8 @@ public class GameBoard implements IGameModel {
 		// }
 	}
 }
+
+// public Iterator
+// public GameSquare getLastestLoopedSquare()
+// public ComputerDecisionResult autoSearch()
+// public void setIndexLoop(int index)
