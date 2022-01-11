@@ -39,12 +39,13 @@ public class GameView extends JPanel implements IView {
         // java component
         addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseClicked(MouseEvent e) { // xử lí khi click chuột vào mỗi ô vuông
                 super.mouseClicked(e);
                 if (e.getButton() == MouseEvent.BUTTON1) {
                     int r = getMappingRow(e.getY());
                     int c = getMappingCol(e.getX());
-                    if (!isShowingButtonDirection && isInBound(c, r)) {
+                    if (!isShowingButtonDirection && isInBound(c, r)) { // isInBound kiểm tra mình có click chuột vào vị
+                                                                        // trí ô vuông hay ko
                         if (controller.canMoveAt(c, r))
                             drawDirectionButton(c, r);
                     } else if (isShowingButtonDirection && isInBound(c, r)) {
@@ -155,6 +156,7 @@ public class GameView extends JPanel implements IView {
     protected boolean isInBound(int c, int r) {
         // System.out.println(c + " " + r);
         return (c >= 0 && c <= 5) && (r == 0 || r == 1);
+        // vị trí có thể click chuột vào
     }
 
     protected Direction handleChoosingDirection() {
