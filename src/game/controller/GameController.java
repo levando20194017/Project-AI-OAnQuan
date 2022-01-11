@@ -67,19 +67,20 @@ public class GameController implements IController {
 
     private void move(int index, Direction moveDirection, Player curPlayer) {
         final int BOSS_2 = 6, BOSS_1 = 0;
+        // nếu mà index chỉ ở ô boss thì ko thể di chuyển
         if (index == BOSS_1 || index == BOSS_2)
             return;
-        gameModel.setLoopDirection(moveDirection);
-        gameModel.setIndexLoop(index);
+        gameModel.setLoopDirection(moveDirection);// thiết lập hướng di chuyển
+        gameModel.setIndexLoop(index);//
 
-        int mitalries = gameModel.getAndRemoveMilitaryAt(index);
+        int mitalries = gameModel.getAndRemoveMilitaryAt(index); // bốc quân lên
         if (mitalries == 0)
             return;
         Iterator<GameSquare> squares = gameModel.iterator();
         while (mitalries-- > 0) {
             GameSquare curSquare = squares.next();
-            curSquare.setMilitaries(curSquare.getMilitaries() + 1);
-            view.updateView(true);
+            curSquare.setMilitaries(curSquare.getMilitaries() + 1); // cộng thêm 1 quân khi đi qua
+            view.updateView(true); // giao diện
 
         }
         GameSquare lastestLoopedSquare = squares.next();
@@ -87,12 +88,12 @@ public class GameController implements IController {
         // lastestLooped.getIndex() + " direction "
         // + gameModel.getLastestLoopedDirection().name());
 
-        if (lastestLoopedSquare.getMilitaries() == 0
+        if (lastestLoopedSquare.getMilitaries() == 0 // nếu số quân đã đi hết
                 && lastestLoopedSquare.getSquareIndex() != BOSS_1
                 && lastestLoopedSquare.getSquareIndex() != BOSS_2) {
-            GameSquare nextLoop = squares.next();
+            GameSquare nextLoop = squares.next(); // vòng lặp kế tiếp, kiểm tra ko được trùng với 2 ô boss
 
-            int nextMil = gameModel.getMilitaryAt(nextLoop.getSquareIndex());
+            int nextMil = gameModel.getMilitaryAt(nextLoop.getSquareIndex()); // lấy số quân ở ô kế tiếp
             if (nextMil > 0) {
                 if (nextLoop.isBossSquare()) {
                     nextLoop.setBossSquare(false);
