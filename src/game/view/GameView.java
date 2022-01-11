@@ -46,8 +46,9 @@ public class GameView extends JPanel implements IView {
                     int c = getMappingCol(e.getX());
                     if (!isShowingButtonDirection && isInBound(c, r)) { // isInBound kiểm tra mình có click chuột vào vị
                                                                         // trí ô vuông hay ko
-                        if (controller.canMoveAt(c, r))
-                            drawDirectionButton(c, r);
+                        if (controller.canMoveAt(c, r)) // mình click chuột vào đúng ô mình có thể cầm quân thì sẽ hiển
+                                                        // thị direction
+                            drawDirectionButton(c, r); // vẽ direction
                     } else if (isShowingButtonDirection && isInBound(c, r)) {
                         Direction moveDirection = null;
                         boolean isOn = false;
@@ -89,7 +90,7 @@ public class GameView extends JPanel implements IView {
 
     }
 
-    protected boolean rightOfHalft(int x, int y) {
+    protected boolean rightOfHalft(int x, int y) {// xử lí click chuột vào direction khi nó hiển thị ra màn hình
         int mappingX = getMappingCol(x);
         int mappingY = getMappingRow(y);
         System.out.println("On method RightOfHalf in GameView " + "mappringX: " + mappingX + " mappingY " + mappingY);

@@ -306,9 +306,10 @@ public class GameBoard implements IGameModel {
 	//// ????????
 	@Override
 	public boolean isValidMove(int c, int r, Player curPlayer) {
-		if (r == 0 && curPlayer == Player.PLAYER_2)
+		// column row
+		if (r == 0 && curPlayer == Player.PLAYER_2)// nếu row = 0, tức là hàng dân phía người chơi thứ 2
 			return true;
-		if (r == 1 && curPlayer == Player.PLAYER_1)
+		if (r == 1 && curPlayer == Player.PLAYER_1) // nếu row = 1, tức là hàng dân phía người chơi thứ 2
 			return true;
 		return false;
 	}
