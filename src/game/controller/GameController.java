@@ -169,10 +169,13 @@ public class GameController implements IController {
 
     private boolean checkRentingMitaries() { // kiểm tra nếu số quân ở các ô bên phía người chơi đã hết thì ...
         if (!gameModel.stillHaveMilitaryOnBoard(curPlayer)) {
-            if (curPlayer.militaries < 5)
-                return false;
-            System.out.println(curPlayer.getName() + " rentting");
-            gameModel.outMilitaries(curPlayer);
+            if (curPlayer.militaries < 5) {
+                gameModel.outMilitariesIf(curPlayer);
+            } else {
+
+                System.out.println(curPlayer.getName() + " rentting");
+                gameModel.outMilitaries(curPlayer);
+            }
         }
         return true;
     }

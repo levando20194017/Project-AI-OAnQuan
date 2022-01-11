@@ -64,7 +64,7 @@ public class GameView extends JPanel implements IView {
                             if (controller.isValidMove(c, r)) {
                                 controller.move(c, r, moveDirection, controller.getCurPlayer());
                                 if (!controller.isOver()) {
-                                    controller.changesOppositePlayer();
+                                    controller.changesOppositePlayer(); // thay đổi người chơi
                                     toMessage("Next turn is: " + controller.getCurPlayer().getName());
                                     if (controller.isHasComputer()) {
                                         controller.autoSearch();

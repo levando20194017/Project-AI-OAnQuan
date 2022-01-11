@@ -303,7 +303,6 @@ public class GameBoard implements IGameModel {
 		return gameBoard;
 	}
 
-	//// ????????
 	@Override
 	public boolean isValidMove(int c, int r, Player curPlayer) {
 		// column row
@@ -421,6 +420,25 @@ public class GameBoard implements IGameModel {
 		// }
 		// }
 		// }
+	}
+
+	@Override
+	public void outMilitariesIf(Player curPlayer) {
+		int markNumber = curPlayer.militaries;
+		curPlayer.militaries = 0;
+		if (curPlayer == Player.PLAYER_1) {
+			Player.PLAYER_2.militaries += 5 - markNumber;
+			for (int i = 7; i < 7 + 5; i++) {
+				addMiltaries(i, 1);
+			}
+		}
+
+		if (curPlayer == Player.PLAYER_2) {
+			Player.PLAYER_1.militaries += 5 - markNumber;
+			for (int i = 1; i < 1 + 5; i++) {
+				addMiltaries(i, 1);
+			}
+		}
 	}
 }
 
