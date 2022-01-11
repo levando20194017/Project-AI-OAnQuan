@@ -88,20 +88,21 @@ public class GameController implements IController {
         // lastestLooped.getIndex() + " direction "
         // + gameModel.getLastestLoopedDirection().name());
 
-        if (lastestLoopedSquare.getMilitaries() == 0 // nếu số quân đã đi hết
+        if (lastestLoopedSquare.getMilitaries() == 0 // nếu ô cuối cùng ko có quân nào
                 && lastestLoopedSquare.getSquareIndex() != BOSS_1
                 && lastestLoopedSquare.getSquareIndex() != BOSS_2) {
-            GameSquare nextLoop = squares.next(); // vòng lặp kế tiếp, kiểm tra ko được trùng với 2 ô boss
+            GameSquare nextLoop = squares.next(); // trỏ sang ô kế tiếp và kiểm tra
 
-            int nextMil = gameModel.getMilitaryAt(nextLoop.getSquareIndex()); // lấy số quân ở ô kế tiếp
+            int nextMil = gameModel.getMilitaryAt(nextLoop.getSquareIndex()); // lấy số quân ở ô kế tiếp gắn cho nextMil
             if (nextMil > 0) {
-                if (nextLoop.isBossSquare()) {
+                if (nextLoop.isBossSquare()) { // kiểm tra nếu là ô boss
                     nextLoop.setBossSquare(false);
                 }
-                curPlayer.militaries += nextMil;
-                gameModel.removeMiltaryAt(nextLoop.getSquareIndex());
+                curPlayer.militaries += nextMil; // cộng điểm cho người chơi lần ăn ô thứ nhất
+                gameModel.removeMiltaryAt(nextLoop.getSquareIndex()); // sau khi bốc số quân lên thì mình remove cái ô
+                                                                      // đấy (số quân lúc này = 0)
                 System.out.println("mutil getting reward at " + nextLoop.getSquareIndex());
-                nextLoop = squares.next();
+                nextLoop = squares.next(); // sang ô kế tiếp để kiểm tra các ô sau có được tính điểm ko
                 while (nextLoop.getMilitaries() == 0) {
                     nextLoop = squares.next();
                     int n = gameModel.getMilitaryAt(nextLoop.getSquareIndex());
@@ -111,24 +112,26 @@ public class GameController implements IController {
                     if (nextLoop.isBossSquare())
                         nextLoop.setBossSquare(false);
                     gameModel.removeMiltaryAt(nextLoop.getSquareIndex());
-                    curPlayer.militaries += n;
+                    curPlayer.militaries += n; // cộng điểm cho người chơi hiện tại và remove ô vuông đấy
+                    // sau đó kiểm tra sang các ô tiếp theo, người chơi được tính điểm nếu sole với
+                    // ô vuông ko có quân
                     view.updateView(true);
                     nextLoop = squares.next();
                 }
             }
         }
-        if (lastestLoopedSquare.getMilitaries() != 0) {
+        if (lastestLoopedSquare.getMilitaries() != 0) { // nếu ô cuoosu != 0 và ko phải ô boss thì di chuyển tiếp
             move(lastestLoopedSquare.getSquareIndex(), gameModel.getLastestLoopedDirection(), curPlayer);
         }
     }
 
     @Override
-    public boolean isOver() {
+    public boolean isOver() { // kết thúc
         return gameModel.isEndGame();
     }
 
     @Override
-    public void reStart() {
+    public void reStart() { // game mới
         gameModel.reAssign();
     }
 
@@ -164,7 +167,7 @@ public class GameController implements IController {
         }
     }
 
-    private boolean checkRentingMitaries() {
+    private boolean checkRentingMitaries() { // kiểm tra nếu số quân ở các ô bên phía người chơi đã hết thì ...
         if (!gameModel.stillHaveMilitaryOnBoard(curPlayer)) {
             if (curPlayer.militaries < 5)
                 return false;
@@ -175,6 +178,7 @@ public class GameController implements IController {
     }
 
     private Player getOppositePlayer() {
+        // trả về người chơi hiện tại
         if (this.curPlayer == Player.PLAYER_1)
             return Player.PLAYER_2;
         else
@@ -236,10 +240,14 @@ public class GameController implements IController {
         // the person is default player 1
         this.curPlayer = Player.PLAYER_1;
 
-        int wannaHaveComputer = JOptionPane.showOptionDialog(null, "Do you want to play with computer?", "",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+        // int wannaHaveComputer = JOptionPane.showOptionDialog(null, "Do you want to
+        // play with computer?", "",
+        // JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options,
+        // options[0]);
 
-        if (wannaHaveComputer == YES_OPTION) {
+        int wannaHaveComputer = 1;
+
+        if (wannaHaveComputer == 1) {
             getOppositePlayer().setComputer(true);
             System.out.println("oppositePlayer " + getOppositePlayer().getName());
             gameModel.setGameLevel(getInputGameLevel());
