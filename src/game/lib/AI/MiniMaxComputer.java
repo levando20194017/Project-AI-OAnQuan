@@ -5,13 +5,13 @@ import game.model.Player;
 
 public class MiniMaxComputer implements IAutoSearching {
     // mover variable is the next mover that is follow by initialize game board
-    private ComputerDecisionResult doMiniMaxAl(GameBoard gb, Player mover, Player op, int maxDepth) {
+    private ComputerDecisionResult minimaxDecision(GameBoard gameBoard, Player mover, Player op, int maxDepth) {
         if (maxDepth == 0)
             return null;
-        Node cur = new Node(gb, mover, op);
-        int max = findMaxValue(cur, 0, maxDepth);
+        Node currentNode = new Node(gameBoard, mover, op);
+        int max = maxValue(currentNode, 0, maxDepth);
 
-        for (Node n : cur.successors()) {
+        for (Node n : currentNode.successors()) {
             if (n == null)
                 continue;
             if (max == n.higher)
@@ -20,44 +20,44 @@ public class MiniMaxComputer implements IAutoSearching {
         return null;
     }
 
-    private int findMaxValue(Node cur, int curDepth, int maxDepth) {
+    private int maxValue(Node currentNode, int currentNodeDepth, int maxDepth) {
         int v = Integer.MIN_VALUE;
-        if (testTerminateNode(cur, curDepth, maxDepth)) {
-            return cur.higher;
+        if (testTerminateNode(currentNode, currentNodeDepth, maxDepth)) {
+            return currentNode.higher;
         }
-        for (Node suc : cur.successors()) {
+        for (Node suc : currentNode.successors()) {
             if (suc == null)
                 continue;
             suc.changePlayer();
-            v = Math.max(v, findMinValue(suc, curDepth + 1, maxDepth));
+            v = Math.max(v, findMinValue(suc, currentNodeDepth + 1, maxDepth));
         }
-        cur.higher = v;
+        currentNode.higher = v;
         return v;
     }
 
-    private int findMinValue(Node cur, int curDepth, int maxDepth) {
+    private int findMinValue(Node currentNode, int currentNodeDepth, int maxDepth) {
         int v = Integer.MAX_VALUE;
-        if (testTerminateNode(cur, curDepth, maxDepth)) {
-            return cur.higher;
+        if (testTerminateNode(currentNode, currentNodeDepth, maxDepth)) {
+            return currentNode.higher;
         }
-        for (Node suc : cur.successors()) {
+        for (Node suc : currentNode.successors()) {
             if (suc == null)
                 continue;
             suc.changePlayer();
-            v = Math.min(v, findMaxValue(suc, curDepth + 1, maxDepth));
+            v = Math.min(v, maxValue(suc, currentNodeDepth + 1, maxDepth));
         }
-        cur.higher = v;
+        currentNode.higher = v;
         return v;
     }
 
-    private boolean testTerminateNode(Node cur, int curDepth, int maxDepth) {
-        if (curDepth == maxDepth)
+    private boolean testTerminateNode(Node currentNode, int currentNodeDepth, int maxDepth) {
+        if (currentNodeDepth == maxDepth)
             return true;
-        return cur.gameBoard.isEndGame();
+        return currentNode.gameBoard.isEndGame();
     }
 
     @Override
-    public ComputerDecisionResult doSearch(GameBoard gb, Player Player1, Player player2, int maxDepth) {
-        return doMiniMaxAl(gb, Player1, player2, maxDepth);
+    public ComputerDecisionResult doSearch(GameBoard gameBoard, Player Player1, Player player2, int maxDepth) {
+        return minimaxDecision(gameBoard, Player1, player2, maxDepth);
     }
 }

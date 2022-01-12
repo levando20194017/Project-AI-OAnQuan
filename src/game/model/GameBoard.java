@@ -350,7 +350,6 @@ public class GameBoard implements IGameModel {
 		return s;
 	}
 
-	// cấp độ của máy
 	@Override
 	public ComputerDecisionResult autoSearch() {
 		ComputerDecisionResult rs = null;
@@ -389,37 +388,6 @@ public class GameBoard implements IGameModel {
 				addMiltaries(i, 1);
 			}
 		}
-
-		// if (curPlayer.miltaries >= 5) {
-		// curPlayer.miltaries -= 5;
-		// if (curPlayer == Player.PLAYER_1) {
-		// for (int i = 7; i < 7 + 5; i++) {
-		// addMiltaries(i, 1);
-		// }
-		// }
-
-		// if (curPlayer == Player.PLAYER_2) {
-		// for (int i = 1; i < 1 + 5; i++) {
-		// addMiltaries(i, 1);
-		// }
-		// }
-		// } else {
-		// int markNumber = curPlayer.miltaries;
-		// curPlayer.miltaries = 0;
-		// if (curPlayer == Player.PLAYER_1) {
-		// Player.PLAYER_2.miltaries += 5 - markNumber;
-		// for (int i = 7; i < 7 + 5; i++) {
-		// addMiltaries(i, 1);
-		// }
-		// }
-
-		// if (curPlayer == Player.PLAYER_2) {
-		// Player.PLAYER_1.miltaries += 5 - markNumber;
-		// for (int i = 1; i < 1 + 5; i++) {
-		// addMiltaries(i, 1);
-		// }
-		// }
-		// }
 	}
 
 	@Override

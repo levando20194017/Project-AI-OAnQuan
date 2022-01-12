@@ -173,12 +173,12 @@ public class Node {
 
     }
 
-    public static ComputerDecisionResult getPath(Node cur) {
-        System.out.println("On getPath : cur == null ? " + (cur == null));
+    public static ComputerDecisionResult getPath(Node currentNode) {
+        System.out.println("On getPath : currentNode == null ? " + (currentNode == null));
         Node rs = null;
-        while (cur.parent != null) {
-            rs = cur;
-            cur = cur.parent;
+        while (currentNode.parent != null) {
+            rs = currentNode;
+            currentNode = currentNode.parent;
         }
         return new ComputerDecisionResult(rs.squareIndex, rs.direction);
 
