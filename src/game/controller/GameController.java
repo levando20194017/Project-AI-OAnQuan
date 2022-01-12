@@ -121,7 +121,7 @@ public class GameController implements IController {
             }
         }
         if (lastestLoopedSquare.getMilitaries() != 0) { // nếu ô cuoosu != 0 và ko phải ô boss thì di chuyển tiếp
-            move(lastestLoopedSquare.getSquareIndex(), gameModel.getLastestLoopedDirection(), curPlayer);
+            move(lastestLoopedSquare.getSquareIndex(), gameModel.getLatestLoopDirection(), curPlayer);
         }
     }
 
@@ -235,18 +235,12 @@ public class GameController implements IController {
     public void runPlayersOptionalConfigurationGame() {
         String[] options = new String[] { "Yes", "No" };
 
-        final int YES_OPTION = 0;
         final int NO_OPTION = 1;
         int wannaPlayFirst = JOptionPane.showOptionDialog(null, "Do you want to be first player?", "",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
 
         // the person is default player 1
         this.curPlayer = Player.PLAYER_1;
-
-        // int wannaHaveComputer = JOptionPane.showOptionDialog(null, "Do you want to
-        // play with computer?", "",
-        // JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options,
-        // options[0]);
 
         int wannaHaveComputer = 1;
 

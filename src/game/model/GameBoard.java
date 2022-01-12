@@ -12,8 +12,8 @@ public class GameBoard implements IGameModel {
 	private int level = 1; // related (easy, medium, hard, super hard)
 	private GameSquare[] gameBoard; // contains the info of 12 squares
 	private LinkNode[] linkedNodeSquare; // link a square with 2 adjacent squares
+	private LinkNode latestLoopSquare = null;
 	private Direction loopDirection;
-	private LinkNode lastestLooped = null;
 	private Direction lastestDirectionLooped = null;
 	private IAutoSearching computer;
 
@@ -201,25 +201,6 @@ public class GameBoard implements IGameModel {
 		linkedNodeSquare[index].square.setMilitaries(0);
 	}
 
-	// ?????????
-	@Override
-	public GameSquare getLastestLoopedSquare() {
-		int lastSquareIndex = lastestLooped.square.getSquareIndex();
-		if (lastSquareIndex > gameBoard[0].getSquareIndex() && lastSquareIndex < gameBoard[6].getSquareIndex()) {
-			if (getLastestLoopedDirection() == Direction.LEFT) {
-				return lastestLooped.bw.square;
-			} else
-				return lastestLooped.fw.square;
-
-		} else {
-			if (getLastestLoopedDirection() == Direction.LEFT) {
-				return lastestLooped.fw.square;
-			} else
-				return lastestLooped.bw.square;
-
-		}
-	}
-
 	// thêm quân vào vị trí index với số lượng numberMiltary
 	@Override
 	public void addMiltaries(int index, int numberMiltary) {
@@ -228,7 +209,7 @@ public class GameBoard implements IGameModel {
 
 	// trả về hướng đi cuối cùng được lặp lại
 	@Override
-	public Direction getLastestLoopedDirection() {
+	public Direction getLatestLoopDirection() {
 		return lastestDirectionLooped;
 	}
 
@@ -253,30 +234,30 @@ public class GameBoard implements IGameModel {
 			@Override
 			public GameSquare next() {
 				GameSquare ret = null;
-				if (lastestLooped == null) {
-					lastestLooped = linkedNodeSquare[squareIndex];
+				if (latestLoopSquare == null) {
+					latestLoopSquare = linkedNodeSquare[squareIndex];
 				}
 				if (squareIndex > 0 && squareIndex < 6) {
 					if (loopDirection == Direction.LEFT) {
-						ret = lastestLooped.bw.square;
-						lastestLooped = lastestLooped.bw;
+						ret = latestLoopSquare.bw.square;
+						latestLoopSquare = latestLoopSquare.bw;
 					}
 					if (loopDirection == Direction.RIGHT) {
-						ret = lastestLooped.fw.square;
-						lastestLooped = lastestLooped.fw;
+						ret = latestLoopSquare.fw.square;
+						latestLoopSquare = latestLoopSquare.fw;
 					}
 				} else {
 					if (loopDirection == Direction.LEFT) {
-						ret = lastestLooped.fw.square;
-						lastestLooped = lastestLooped.fw;
+						ret = latestLoopSquare.fw.square;
+						latestLoopSquare = latestLoopSquare.fw;
 					}
 					if (loopDirection == Direction.RIGHT) {
-						ret = lastestLooped.bw.square;
-						lastestLooped = lastestLooped.bw;
+						ret = latestLoopSquare.bw.square;
+						latestLoopSquare = latestLoopSquare.bw;
 
 					}
 				}
-				if (lastestLooped.square.getSquareIndex() == 0 || lastestLooped.square.getSquareIndex() == 6) {
+				if (latestLoopSquare.square.getSquareIndex() == 0 || latestLoopSquare.square.getSquareIndex() == 6) {
 					// System.out.println("before " + lastestDirectionLooped + " after "
 					// + lastestDirectionLooped.getOppositeDirection());
 					lastestDirectionLooped = lastestDirectionLooped.getOppositeDirection();
@@ -292,7 +273,7 @@ public class GameBoard implements IGameModel {
 	////////// thiết lập quân sau khi kết thúc vòng lặp???
 	@Override
 	public void setIndexLoop(int index) {
-		lastestLooped = null;
+		latestLoopSquare = null;
 		this.squareIndex = index;
 		// System.out.println("set loop indexAt " + index);
 	}
@@ -411,6 +392,6 @@ public class GameBoard implements IGameModel {
 }
 
 // public Iterator
-// public GameSquare getLastestLoopedSquare()
+// public GameSquare getlatestLoopSquare()
 // public ComputerDecisionResult autoSearch()
 // public void setIndexLoop(int index)

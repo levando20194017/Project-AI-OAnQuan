@@ -28,11 +28,9 @@ public interface IGameModel extends Iterable<GameSquare> {
 		return miltaries;
 	}
 
-	GameSquare getLastestLoopedSquare();
+	Direction getLatestLoopDirection();
 
 	void addMiltaries(int index, int numberMiltary);
-
-	Direction getLastestLoopedDirection();
 
 	void setLoopDirection(Direction direction);
 
