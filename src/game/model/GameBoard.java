@@ -350,7 +350,7 @@ public class GameBoard implements IGameModel {
 		return s;
 	}
 
-	// ??????????????
+	// cấp độ của máy
 	@Override
 	public ComputerDecisionResult autoSearch() {
 		ComputerDecisionResult rs = null;
