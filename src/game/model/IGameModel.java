@@ -34,7 +34,7 @@ public interface IGameModel extends Iterable<GameSquare> {
 
 	void setLoopDirection(Direction direction);
 
-	void setIndexLoop(int index);
+	void setFirstIndexOfLoop(int index);
 
 	GameSquare[] getGameSquares();
 

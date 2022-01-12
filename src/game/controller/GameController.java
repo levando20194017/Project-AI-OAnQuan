@@ -71,7 +71,7 @@ public class GameController implements IController {
         if (index == BOSS_1 || index == BOSS_2)
             return;
         gameModel.setLoopDirection(moveDirection);// thiết lập hướng di chuyển
-        gameModel.setIndexLoop(index);//
+        gameModel.setFirstIndexOfLoop(index);//
 
         int mitalries = gameModel.getAndRemoveMilitaryAt(index); // bốc quân lên
         if (mitalries == 0)

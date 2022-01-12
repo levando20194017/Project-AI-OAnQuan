@@ -26,7 +26,7 @@ public class AlphaBetaPruningComputer implements IAutoSearching {
         for (Node child : root.successors()) {
             if (child == null)
                 continue;
-            if (child.higher == alpha) {
+            if (child.h == alpha) {
                 ap.add(child);
                 return Node.getPath(child);
             }
@@ -38,7 +38,7 @@ public class AlphaBetaPruningComputer implements IAutoSearching {
         if (beta <= alpha)
             return Integer.MAX_VALUE;
         if (testTerminatedNode(cur, curDepth, maxDepth))
-            return cur.higher;
+            return cur.h;
 
         for (Node child : cur.successors()) {
             if (child == null)
@@ -46,7 +46,7 @@ public class AlphaBetaPruningComputer implements IAutoSearching {
             child.changePlayer();
             beta = Math.min(beta, findMaxValue(child, alpha, beta, curDepth + 1, maxDepth));
         }
-        cur.higher = beta;
+        cur.h = beta;
         return beta;
     }
 
@@ -54,7 +54,7 @@ public class AlphaBetaPruningComputer implements IAutoSearching {
         if (beta <= alpha)
             return Integer.MIN_VALUE;
         if (testTerminatedNode(cur, curDepth, maxDepth))
-            return cur.higher;
+            return cur.h;
 
         for (Node child : cur.successors()) {
             if (child == null)
@@ -62,7 +62,7 @@ public class AlphaBetaPruningComputer implements IAutoSearching {
             child.changePlayer();
             alpha = Math.max(alpha, findMinValue(child, alpha, beta, curDepth + 1, maxDepth));
         }
-        cur.higher = alpha;
+        cur.h = alpha;
         return alpha;
     }
 

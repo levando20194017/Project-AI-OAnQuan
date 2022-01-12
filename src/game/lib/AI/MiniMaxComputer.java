@@ -14,7 +14,7 @@ public class MiniMaxComputer implements IAutoSearching {
         for (Node n : currentNode.successors()) {
             if (n == null)
                 continue;
-            if (max == n.higher)
+            if (max == n.h)
                 return Node.getPath(n);
         }
         return null;
@@ -23,7 +23,7 @@ public class MiniMaxComputer implements IAutoSearching {
     private int maxValue(Node currentNode, int currentNodeDepth, int maxDepth) {
         int v = Integer.MIN_VALUE;
         if (testTerminateNode(currentNode, currentNodeDepth, maxDepth)) {
-            return currentNode.higher;
+            return currentNode.h;
         }
         for (Node suc : currentNode.successors()) {
             if (suc == null)
@@ -31,14 +31,14 @@ public class MiniMaxComputer implements IAutoSearching {
             suc.changePlayer();
             v = Math.max(v, findMinValue(suc, currentNodeDepth + 1, maxDepth));
         }
-        currentNode.higher = v;
+        currentNode.h = v;
         return v;
     }
 
     private int findMinValue(Node currentNode, int currentNodeDepth, int maxDepth) {
         int v = Integer.MAX_VALUE;
         if (testTerminateNode(currentNode, currentNodeDepth, maxDepth)) {
-            return currentNode.higher;
+            return currentNode.h;
         }
         for (Node suc : currentNode.successors()) {
             if (suc == null)
@@ -46,7 +46,7 @@ public class MiniMaxComputer implements IAutoSearching {
             suc.changePlayer();
             v = Math.min(v, maxValue(suc, currentNodeDepth + 1, maxDepth));
         }
-        currentNode.higher = v;
+        currentNode.h = v;
         return v;
     }
 

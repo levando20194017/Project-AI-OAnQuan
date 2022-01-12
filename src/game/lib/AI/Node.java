@@ -13,7 +13,7 @@ public class Node {
    public Player p1, p2, currentPlayer;
    public int squareIndex;
    public Direction direction;
-   public int higher;
+   public int h; // ~ heuristic
    private boolean isMaximizing;
    private Node[] successors; // All valid moves from current state
 
@@ -38,22 +38,20 @@ public class Node {
       this.p1 = currentPlayer;
       this.p2 = other.currentPlayer();
       this.gameBoard = cur.gameBoard.cpy();
-      this.higher = cur.higher;
+      this.h = cur.h;
       this.direction = cur.direction;
       this.squareIndex = cur.squareIndex;
       this.parent = cur.parent;
    }
 
+   // Utility function
    public void evaluation() {
       Player computer = (p1.isComputer() ? p1 : p2);
       Player human = (p1.isComputer() ? p2 : p1);
-
-      // h = (the greater of player's score and computer's score then plus number of
-      // this empty square that is created by current player)
-      System.out.println("in evaluation squareIndex: " + squareIndex
-            + " computer " + computer.militaries
-            + " human " + human.militaries);
-      higher = (computer.militaries) - (human.militaries);
+      h = (computer.militaries) - (human.militaries);
+      // System.out.println("in evaluation squareIndex: " + squareIndex
+      // + " computer " + computer.militaries
+      // + " human " + human.militaries);
    }
 
    public static void move(int squareIndex, Direction direction, Player curPlayer, GameBoard gameBoard) {
@@ -65,48 +63,54 @@ public class Node {
          return;
 
       gameBoard.setLoopDirection(direction);
-      gameBoard.setIndexLoop(squareIndex); // vị trí bốc quân để rải
+      gameBoard.setFirstIndexOfLoop(squareIndex);
 
-      int mitalries = gameBoard.getAndRemoveMilitaryAt(squareIndex);// số dân bốc lên để rải
-      if (mitalries == 0)
+      int militaries = gameBoard.getAndRemoveMilitaryAt(squareIndex); // số dân bốc lên để rải
+      if (militaries == 0)
          return;
+
       Iterator<GameSquare> squares = gameBoard.iterator();
-      while (mitalries-- > 0) {
+      while (militaries-- > 0) {
          GameSquare cur = squares.next();
-         cur.setMilitaries(cur.getMilitaries() + 1);
          // cộng thêm 1 dân vào mỗi ô khi rải quân
+         cur.setMilitaries(cur.getMilitaries() + 1);
       }
-      GameSquare lastestLooped = squares.next();
 
-      if (lastestLooped.getMilitaries() == 0 && lastestLooped.getSquareIndex() != BOSS_1_INDEX
-            && lastestLooped.getSquareIndex() != BOSS_2_INDEX) {
-         GameSquare nextLoop = squares.next(); // trỏ tới ô kế tiếp ô trống
-         if (nextLoop.isBossSquare()) {
-            nextLoop.setBossSquare(false);
+      GameSquare nextOfLastSquare = squares.next(); // next square of latestLoopSquare
 
+      // check if next cell is empty
+      if (nextOfLastSquare.getMilitaries() == 0
+            && nextOfLastSquare.getSquareIndex() != BOSS_1_INDEX
+            && nextOfLastSquare.getSquareIndex() != BOSS_2_INDEX) {
+
+         GameSquare nextOfEmptySquare = squares.next(); // next square of empty square
+         if (nextOfEmptySquare.isBossSquare()) {
+            nextOfEmptySquare.setBossSquare(false);
          }
-         int nextMil = gameBoard.getMilitaryAt(nextLoop.getSquareIndex());
-         if (nextMil > 0) {
-            curPlayer.militaries += nextMil; // cộng điểm cho người chơi
-            gameBoard.removeMiltaryAt(nextLoop.getSquareIndex()); // xóa số dân vừa ăn được
-            nextLoop = squares.next(); // tiếp tục vòng lặp để xét trường hợp ăn sole cách nhau 1 ô trống
-            while (nextLoop.getMilitaries() == 0) {
-               nextLoop = squares.next();
-               int n = gameBoard.getMilitaryAt(nextLoop.getSquareIndex());
+
+         int Militaries = gameBoard.getMilitaryAt(nextOfEmptySquare.getSquareIndex());
+         if (Militaries > 0) {
+            curPlayer.militaries += Militaries; // cộng điểm cho người chơi
+            gameBoard.removeMiltaryAt(nextOfEmptySquare.getSquareIndex()); // xóa số dân vừa ăn được
+            nextOfEmptySquare = squares.next(); // tiếp tục vòng lặp để xét trường hợp ăn sole cách nhau 1 ô trống
+            while (nextOfEmptySquare.getMilitaries() == 0) {
+               nextOfEmptySquare = squares.next();
+               int n = gameBoard.getMilitaryAt(nextOfEmptySquare.getSquareIndex());
                if (n == 0) {
                   break;
                }
-               if (nextLoop.isBossSquare())
-                  nextLoop.setBossSquare(false);
-               gameBoard.removeMiltaryAt(nextLoop.getSquareIndex());
+               if (nextOfEmptySquare.isBossSquare())
+                  nextOfEmptySquare.setBossSquare(false);
+               gameBoard.removeMiltaryAt(nextOfEmptySquare.getSquareIndex());
                curPlayer.militaries += n;
-               nextLoop = squares.next();
+               nextOfEmptySquare = squares.next();
             }
          }
       }
-      if (lastestLooped.getMilitaries() != 0) {
+
+      if (nextOfLastSquare.getMilitaries() != 0) {
          // nếu ô vuông kề với ô bị rải quân ở cuối cùng có dân thì tiếp tục rải
-         move(lastestLooped.getSquareIndex(), gameBoard.getLatestLoopDirection(), curPlayer, gameBoard);
+         move(nextOfLastSquare.getSquareIndex(), gameBoard.getLatestLoopDirection(), curPlayer, gameBoard);
       }
    }
 

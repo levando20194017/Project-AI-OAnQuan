@@ -12,8 +12,8 @@ public class GameBoard implements IGameModel {
 	private int level = 1; // related (easy, medium, hard, super hard)
 	private GameSquare[] gameBoard; // contains the info of 12 squares
 	private LinkNode[] linkedNodeSquare; // link a square with 2 adjacent squares
-	private LinkNode latestLoopSquare = null;
-	private Direction loopDirection;
+	private LinkNode latestLoopSquare;
+	private Direction loopDirection; // is the direction the player chooses
 	private Direction lastestDirectionLooped = null;
 	private IAutoSearching computer;
 
@@ -216,11 +216,9 @@ public class GameBoard implements IGameModel {
 	// thiết lập hướng đi ban đầu và kế tiếp
 	@Override
 	public void setLoopDirection(Direction direction) {
-		// System.out.println("first set direction loop " + direction);
 		this.loopDirection = direction;
 		this.lastestDirectionLooped = direction;
 	}
-	// ??????????
 
 	@Override
 	public Iterator<GameSquare> iterator() {
@@ -270,12 +268,11 @@ public class GameBoard implements IGameModel {
 
 	}
 
-	////////// thiết lập quân sau khi kết thúc vòng lặp???
+	// set first index of the loop
 	@Override
-	public void setIndexLoop(int index) {
+	public void setFirstIndexOfLoop(int index) {
 		latestLoopSquare = null;
 		this.squareIndex = index;
-		// System.out.println("set loop indexAt " + index);
 	}
 
 	// mảng chứa các phần tử
@@ -394,4 +391,4 @@ public class GameBoard implements IGameModel {
 // public Iterator
 // public GameSquare getlatestLoopSquare()
 // public ComputerDecisionResult autoSearch()
-// public void setIndexLoop(int index)
+// public void setFirstIndexOfLoop(int index)
