@@ -14,8 +14,9 @@ public class Node {
    public int squareIndex;
    public Direction direction;
    public int h; // ~ heuristic
-   private boolean isMaximizing;
    private Node[] successors; // All valid moves from current state
+   private boolean isMaximizing;
+   public static int count = 0;
 
    public Node(Node parent, GameBoard gameBoard, Player p1, Player p2) {
       this.gameBoard = gameBoard;
@@ -123,9 +124,10 @@ public class Node {
       res.direction = direction;
       Node.move(res.squareIndex, res.direction, res.currentPlayer, res.gameBoard);
       res.evaluation();
-      // System.out.println("on moving " + res.p1 + " | " + res.p2 + " squareIndex: "
-      // +
-      // res.squareIndex + " dir: " + res.d.name() + " evu " + res.h);
+      System.out.println("on moving " + res.p1 + " | " + res.p2
+            + " squareIndex: " + res.squareIndex
+            + " dir: " + res.direction.name()
+            + " evaluation " + res.h);
       return res;
    }
 
@@ -146,21 +148,27 @@ public class Node {
          }
       }
 
-      if (currentPlayer.equals(Player.PLAYER_1)) { // compare the name of player
-         for (int i = 7, sIndex = 0; i < 12; i++) {
-            // System.out.println("on pl1 move left and right");
-            successors[sIndex++] = moveSquare(this, gameBoard.cpy(), i, Direction.LEFT);
-            successors[sIndex++] = moveSquare(this, gameBoard.cpy(), i, Direction.RIGHT);
-         }
-      }
-
+      // run all of case
       if (currentPlayer.equals(Player.PLAYER_2)) {
          for (int i = 1, sIndex = 0; i < 6; i++) {
             // System.out.println("on pl2 move left and right");
             successors[sIndex++] = moveSquare(this, gameBoard.cpy(), i, Direction.LEFT);
             successors[sIndex++] = moveSquare(this, gameBoard.cpy(), i, Direction.RIGHT);
          }
+         count++;
+         System.out.println("count = " + count);
       }
+
+      if (currentPlayer.equals(Player.PLAYER_1)) { // compare the name of player
+         for (int i = 7, sIndex = 0; i < 12; i++) {
+            // System.out.println("on pl1 move left and right");
+            successors[sIndex++] = moveSquare(this, gameBoard.cpy(), i, Direction.LEFT);
+            successors[sIndex++] = moveSquare(this, gameBoard.cpy(), i, Direction.RIGHT);
+         }
+         count++;
+         System.out.println("count = " + count);
+      }
+
       return successors;
    }
 
@@ -177,7 +185,7 @@ public class Node {
       return this.isMaximizing;
    }
 
-   public void changePlayer() {
+   public void swapPlayer() {
       currentPlayer = p2;
       p2 = p1;
       p1 = currentPlayer;

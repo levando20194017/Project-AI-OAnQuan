@@ -274,13 +274,13 @@ public class GameController implements IController {
 
         int level = -1;
         if (inputLevel == EASY_OP)
-            level = 1;
-        if (inputLevel == MEDIUM_OP)
             level = 3;
-        if (inputLevel == HARD_OP)
+        if (inputLevel == MEDIUM_OP)
             level = 5;
-        if (inputLevel == SU_HAR_OP)
+        if (inputLevel == HARD_OP)
             level = 7;
+        if (inputLevel == SU_HAR_OP)
+            level = 9;
         return level;
     }
 }

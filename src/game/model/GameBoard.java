@@ -331,14 +331,14 @@ public class GameBoard implements IGameModel {
 	@Override
 	public ComputerDecisionResult autoSearch() {
 		ComputerDecisionResult rs = null;
-		if (level <= 3)
+		if (level <= 5)
 			if (computer == null)
 				computer = new MiniMaxComputer();
-		if (level > 3)
+		if (level > 5)
 			if (computer == null || computer instanceof MiniMaxComputer)
 				computer = new AlphaBetaPruningComputer();
 
-		rs = computer.doSearch(this, Player.PLAYER_1.isComputer() ? Player.PLAYER_1 : Player.PLAYER_2,
+		rs = computer.search(this, Player.PLAYER_1.isComputer() ? Player.PLAYER_1 : Player.PLAYER_2,
 				Player.PLAYER_1.isComputer() ? Player.PLAYER_2 : Player.PLAYER_1, level);
 		return rs;
 	}
