@@ -58,7 +58,7 @@ public class Node {
 
     public Node[] successors() {
         if (successors == null)
-            successors = new Node[5 * 2]; // always return maxmima work case
+            successors = new Node[5 * 2]; // always return maximum work case
         else
             return successors;
         if (!gameBoard.stillHaveMilitaryOnBoard(currentPlayer)) {

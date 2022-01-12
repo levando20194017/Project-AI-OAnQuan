@@ -90,7 +90,8 @@ public class GameView extends JPanel implements IView {
 
     }
 
-    protected boolean rightOfHalft(int x, int y) {// xử lí click chuột vào direction khi nó hiển thị ra màn hình
+    // xử lí click chuột vào direction khi nó hiển thị ra màn hình
+    protected boolean rightOfHalft(int x, int y) {
         int mappingX = getMappingCol(x);
         int mappingY = getMappingRow(y);
         System.out.println("On method RightOfHalf in GameView " + "mappringX: " + mappingX + " mappingY " + mappingY);
@@ -121,7 +122,7 @@ public class GameView extends JPanel implements IView {
         return false;
     }
 
-    // không gian mà mình có thể click vào ô vuông theo chiều ngang
+    // không gian mà mình có thể click vào ô vuông theo chiều dọc
     // mỗi ô vuông có kích thước 64x64
     private int getMappingCol(int x) {
         int ret = -1;
@@ -206,7 +207,6 @@ public class GameView extends JPanel implements IView {
         g.setColor(Color.black); // thiết lập màu viền
 
         // g.drawArc(centerX - 64, centerY, 128, 128, 90, 180);
-        // TODO draw boss1's square militaries
         // thiết lập vị trí con boss thứ nhất
         drawMilitaries(centerX - 64, centerY, controller.getGameSquares()[0], true, g);
 
@@ -255,19 +255,18 @@ public class GameView extends JPanel implements IView {
     }
 
     // thiết lập hiển thị số quân ở ô vuông
-    private void drawmilitaries(int x, int y, int playermilitaries, Graphics g) {
+    private void drawmilitaries(int x, int y, int militaries, Graphics g) {
         String imgName = "";
-        // playermilitaries là số quân trên mỗi ô vuông
-        if (playermilitaries > 5)
+        if (militaries > 5)
             imgName = "5.png";
         else
-            imgName = playermilitaries + ".png";
+            imgName = militaries + ".png";
         Image loadedImg = imgLoader.getImg(imgName);
-        g.drawImage(loadedImg, x, y, null); // x, y là tọa độ x, y
+        g.drawImage(loadedImg, x, y, null); // x, y là tọa độ
 
-        if (playermilitaries > 5) {
+        if (militaries > 5) {
             g.setFont(new Font("Roboto", Font.PLAIN, 18));
-            g.drawString("+" + (playermilitaries - 5), x + 64 / 2, y + 64 / 2);
+            g.drawString("+" + (militaries - 5), x + 64 / 2, y + 64 / 2);
         }
     }
 
