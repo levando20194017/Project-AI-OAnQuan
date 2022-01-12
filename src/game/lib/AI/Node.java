@@ -122,16 +122,16 @@ public class Node {
 
         if (lastestLooped.getMilitaries() == 0 && lastestLooped.getSquareIndex() != BOSS_1
                 && lastestLooped.getSquareIndex() != BOSS_2) {
-            GameSquare nextLoop = squares.next();
+            GameSquare nextLoop = squares.next(); // trỏ tới ô kế tiếp ô trống
             if (nextLoop.isBossSquare()) {
                 nextLoop.setBossSquare(false);
 
             }
             int nextMil = gameBoard.getMilitaryAt(nextLoop.getSquareIndex());
             if (nextMil > 0) {
-                curPlayer.militaries += nextMil;
-                gameBoard.removeMiltaryAt(nextLoop.getSquareIndex());
-                nextLoop = squares.next();
+                curPlayer.militaries += nextMil; // cộng điểm cho người chơi
+                gameBoard.removeMiltaryAt(nextLoop.getSquareIndex()); // xóa số dân vừa ăn được
+                nextLoop = squares.next(); // tiếp tục vòng lặp để xét trường hợp ăn sole cách nhau 1 ô trống
                 while (nextLoop.getMilitaries() == 0) {
                     nextLoop = squares.next();
                     int n = gameBoard.getMilitaryAt(nextLoop.getSquareIndex());
@@ -147,6 +147,7 @@ public class Node {
             }
         }
         if (lastestLooped.getMilitaries() != 0) {
+            // nếu ô vuông kề với ô bị rải quân ở cuối cùng có dân thì tiếp tục rải
             move(lastestLooped.getSquareIndex(), gameBoard.getLastestLoopedDirection(), curPlayer, gameBoard);
         }
     }
