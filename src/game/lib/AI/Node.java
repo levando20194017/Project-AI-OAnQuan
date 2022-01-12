@@ -124,10 +124,12 @@ public class Node {
       res.direction = direction;
       Node.move(res.squareIndex, res.direction, res.currentPlayer, res.gameBoard);
       res.evaluation();
-      System.out.println("on moving " + res.p1 + " | " + res.p2
-            + " squareIndex: " + res.squareIndex
-            + " dir: " + res.direction.name()
-            + " evaluation " + res.h);
+      // System.out.println("on moving " + res.p1 + " | " + res.p2
+      // + " squareIndex: " + res.squareIndex
+      // + " dir: " + res.direction.name()
+      // + " evaluation " + res.h);
+      count++;
+      System.out.println("count = " + count);
       return res;
    }
 
@@ -155,8 +157,7 @@ public class Node {
             successors[sIndex++] = moveSquare(this, gameBoard.cpy(), i, Direction.LEFT);
             successors[sIndex++] = moveSquare(this, gameBoard.cpy(), i, Direction.RIGHT);
          }
-         count++;
-         System.out.println("count = " + count);
+
       }
 
       if (currentPlayer.equals(Player.PLAYER_1)) { // compare the name of player
@@ -165,8 +166,6 @@ public class Node {
             successors[sIndex++] = moveSquare(this, gameBoard.cpy(), i, Direction.LEFT);
             successors[sIndex++] = moveSquare(this, gameBoard.cpy(), i, Direction.RIGHT);
          }
-         count++;
-         System.out.println("count = " + count);
       }
 
       return successors;
