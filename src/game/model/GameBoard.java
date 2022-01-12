@@ -15,7 +15,7 @@ public class GameBoard implements IGameModel {
 	private Direction loopDirection;
 	private LinkNode lastestLooped = null;
 	private Direction lastestDirectionLooped = null;
-	// private AutoSearching computer;
+	private AutoSearching computer;
 
 	class LinkNode {
 		LinkNode fw;
