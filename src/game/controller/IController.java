@@ -5,7 +5,7 @@ import game.model.GameSquare;
 import game.model.GameState;
 import game.model.IGameModel;
 import game.model.Player;
-// import game.view.GameView;
+import game.view.GameView;
 
 public interface IController {
 
@@ -37,7 +37,7 @@ public interface IController {
 
     void setModel(IGameModel model);
 
-    // void setCurView(GameView view);
+    void setCurView(GameView view);
 
     void runPlayersOptionalConfigurationGame();
 
