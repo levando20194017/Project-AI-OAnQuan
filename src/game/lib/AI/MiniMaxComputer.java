@@ -3,7 +3,7 @@ package game.lib.AI;
 import game.model.GameBoard;
 import game.model.Player;
 
-public class MiniMaxComputer implements AutoSearching {
+public class MiniMaxComputer implements IAutoSearching {
     // mover variable is the next mover that is follow by initialize game board
     private ComputerDecisionResult doMiniMaxAl(GameBoard gb, Player mover, Player op, int maxDepth) {
         if (maxDepth == 0)
@@ -14,7 +14,7 @@ public class MiniMaxComputer implements AutoSearching {
         for (Node n : cur.successors()) {
             if (n == null)
                 continue;
-            if (max == n.h)
+            if (max == n.higher)
                 return Node.getPath(n);
         }
         return null;
@@ -23,7 +23,7 @@ public class MiniMaxComputer implements AutoSearching {
     private int findMaxValue(Node cur, int curDepth, int maxDepth) {
         int v = Integer.MIN_VALUE;
         if (testTerminateNode(cur, curDepth, maxDepth)) {
-            return cur.h;
+            return cur.higher;
         }
         for (Node suc : cur.successors()) {
             if (suc == null)
@@ -31,14 +31,14 @@ public class MiniMaxComputer implements AutoSearching {
             suc.changePlayer();
             v = Math.max(v, findMinValue(suc, curDepth + 1, maxDepth));
         }
-        cur.h = v;
+        cur.higher = v;
         return v;
     }
 
     private int findMinValue(Node cur, int curDepth, int maxDepth) {
         int v = Integer.MAX_VALUE;
         if (testTerminateNode(cur, curDepth, maxDepth)) {
-            return cur.h;
+            return cur.higher;
         }
         for (Node suc : cur.successors()) {
             if (suc == null)
@@ -46,7 +46,7 @@ public class MiniMaxComputer implements AutoSearching {
             suc.changePlayer();
             v = Math.min(v, findMaxValue(suc, curDepth + 1, maxDepth));
         }
-        cur.h = v;
+        cur.higher = v;
         return v;
     }
 

@@ -11,9 +11,9 @@ public class Node {
     public Node parent;
     public GameBoard gameBoard;
     public Player p1, p2, currentPlayer;
-    public int index;
-    public Direction d;
-    public int h;
+    public int squareIndex;
+    public Direction direction;
+    public int higher;
     private boolean isMaximizing;
     private Node[] successors;
 
@@ -38,22 +38,22 @@ public class Node {
         this.p1 = currentPlayer;
         this.p2 = other.currentPlayer();
         this.gameBoard = cur.gameBoard.cpy();
-        this.h = cur.h;
-        this.d = cur.d;
-        this.index = cur.index;
+        this.higher = cur.higher;
+        this.direction = cur.direction;
+        this.squareIndex = cur.squareIndex;
         this.parent = cur.parent;
     }
 
-    public void evulation() {
+    public void evaluation() {
         Player computer = (p1.isComputer() ? p1 : p2);
         Player human = (p1.isComputer() ? p2 : p1);
 
         // h = (the greater of player's score and computer's score then plus number of
         // this empty square that is created by current player)
-        // System.out.println(
-        // "in evulation index: " + index + " comput " + computer.miltaries + " human "
-        // + human.miltaries);
-        h = (computer.militaries) - (human.militaries);
+        System.out.println("in evaluation squareIndex: " + squareIndex
+                + " computer " + computer.militaries
+                + " human " + human.militaries);
+        higher = (computer.militaries) - (human.militaries);
     }
 
     public Node[] successors() {
@@ -92,23 +92,24 @@ public class Node {
             return null;
         }
         Node res = new Node(parent, gb, p1, p2);
-        res.index = i;
-        res.d = moveDirection;
-        Node.move(res.index, res.d, res.currentPlayer, res.gameBoard);
-        res.evulation();
-        // System.out.println("on moving " + res.p1 + " | " + res.p2 + " index: " +
-        // res.index + " dir: " + res.d.name() + " evu " + res.h);
+        res.squareIndex = i;
+        res.direction = moveDirection;
+        Node.move(res.squareIndex, res.direction, res.currentPlayer, res.gameBoard);
+        res.evaluation();
+        // System.out.println("on moving " + res.p1 + " | " + res.p2 + " squareIndex: "
+        // +
+        // res.squareIndex + " dir: " + res.d.name() + " evu " + res.h);
         return res;
     }
 
-    public static void move(int index, Direction moveDirection, Player curPlayer, GameBoard gameBoard) {
+    public static void move(int squareIndex, Direction moveDirection, Player curPlayer, GameBoard gameBoard) {
         final int BOSS_2 = 6, BOSS_1 = 0;
-        if (index == BOSS_1 || index == BOSS_2)
+        if (squareIndex == BOSS_1 || squareIndex == BOSS_2)
             return;
         gameBoard.setLoopDirection(moveDirection);// thiết lập hướng
-        gameBoard.setIndexLoop(index);// vị trí bốc quân để rải
+        gameBoard.setIndexLoop(squareIndex);// vị trí bốc quân để rải
 
-        int mitalries = gameBoard.getAndRemoveMilitaryAt(index);// số dân bốc lên để rải
+        int mitalries = gameBoard.getAndRemoveMilitaryAt(squareIndex);// số dân bốc lên để rải
         if (mitalries == 0)
             return;
         Iterator<GameSquare> squares = gameBoard.iterator();
@@ -179,7 +180,7 @@ public class Node {
             rs = cur;
             cur = cur.parent;
         }
-        return new ComputerDecisionResult(rs.index, rs.d);
+        return new ComputerDecisionResult(rs.squareIndex, rs.direction);
 
     }
 }

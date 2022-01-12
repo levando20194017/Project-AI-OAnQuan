@@ -6,7 +6,7 @@ import java.util.List;
 import game.model.GameBoard;
 import game.model.Player;
 
-public class AlphaBetaPruningComputer implements AutoSearching {
+public class AlphaBetaPruningComputer implements IAutoSearching {
     // i define alpha is maximizing player that is computer, another is player
 
     @Override
@@ -26,7 +26,7 @@ public class AlphaBetaPruningComputer implements AutoSearching {
         for (Node child : root.successors()) {
             if (child == null)
                 continue;
-            if (child.h == alpha) {
+            if (child.higher == alpha) {
                 ap.add(child);
                 return Node.getPath(child);
             }
@@ -38,7 +38,7 @@ public class AlphaBetaPruningComputer implements AutoSearching {
         if (beta <= alpha)
             return Integer.MAX_VALUE;
         if (testTerminatedNode(cur, curDepth, maxDepth))
-            return cur.h;
+            return cur.higher;
 
         for (Node child : cur.successors()) {
             if (child == null)
@@ -46,7 +46,7 @@ public class AlphaBetaPruningComputer implements AutoSearching {
             child.changePlayer();
             beta = Math.min(beta, findMaxValue(child, alpha, beta, curDepth + 1, maxDepth));
         }
-        cur.h = beta;
+        cur.higher = beta;
         return beta;
     }
 
@@ -54,7 +54,7 @@ public class AlphaBetaPruningComputer implements AutoSearching {
         if (beta <= alpha)
             return Integer.MIN_VALUE;
         if (testTerminatedNode(cur, curDepth, maxDepth))
-            return cur.h;
+            return cur.higher;
 
         for (Node child : cur.successors()) {
             if (child == null)
@@ -62,7 +62,7 @@ public class AlphaBetaPruningComputer implements AutoSearching {
             child.changePlayer();
             alpha = Math.max(alpha, findMinValue(child, alpha, beta, curDepth + 1, maxDepth));
         }
-        cur.h = alpha;
+        cur.higher = alpha;
         return alpha;
     }
 

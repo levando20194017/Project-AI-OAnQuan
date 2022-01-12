@@ -3,7 +3,7 @@ package game.model;
 import java.util.Iterator;
 
 import game.lib.AI.AlphaBetaPruningComputer;
-import game.lib.AI.AutoSearching;
+import game.lib.AI.IAutoSearching;
 import game.lib.AI.ComputerDecisionResult;
 import game.lib.AI.MiniMaxComputer;
 
@@ -15,7 +15,7 @@ public class GameBoard implements IGameModel {
 	private Direction loopDirection;
 	private LinkNode lastestLooped = null;
 	private Direction lastestDirectionLooped = null;
-	private AutoSearching computer;
+	private IAutoSearching computer;
 
 	class LinkNode {
 		LinkNode fw;
