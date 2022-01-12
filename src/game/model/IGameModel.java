@@ -15,7 +15,7 @@ public interface IGameModel extends Iterable<GameSquare> {
 	// Check if the number of militaries on boss square is 0
 	boolean isEndGame();
 
-	// 
+	//
 	void getRewardInSquare(Player player, int index);
 
 	int getMilitaryAt(int index);
@@ -49,5 +49,7 @@ public interface IGameModel extends Iterable<GameSquare> {
 	void setGameLevel(int inputGameLevel);
 
 	void outMilitaries(Player curPlayer);
+
+	void outMilitariesIf(Player curPlayer);
 
 }

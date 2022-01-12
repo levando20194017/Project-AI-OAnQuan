@@ -64,7 +64,7 @@ public class GameView extends JPanel implements IView {
                             if (controller.isValidMove(c, r)) {
                                 controller.move(c, r, moveDirection, controller.getCurPlayer());
                                 if (!controller.isOver()) {
-                                    controller.changesOppositePlayer();
+                                    controller.changesOppositePlayer(); // thay đổi người chơi
                                     toMessage("Next turn is: " + controller.getCurPlayer().getName());
                                     if (controller.isHasComputer()) {
                                         controller.autoSearch();
@@ -168,7 +168,7 @@ public class GameView extends JPanel implements IView {
     // vẽ hướng đi
     protected void drawDirectionButton(int c, int r) {
         Graphics g = getGraphics(); // java swing component
-        g.setColor(Color.red);
+        g.setColor(Color.black);
         int centerX = ((c * 64) / 2) + offSetX + (c - 1) * (32);
         int centerY = ((r * 64) / 2) + offSetY + (r) * 32;
         // System.out.println("draw at " + centerX + " " + centerY);
@@ -203,48 +203,55 @@ public class GameView extends JPanel implements IView {
         // thiết lập vị trí bảng trò chơi
         int centerX = (getPreferredSize().width / 2) - 3 * 64 + 32; // getPreferredSize jcomponent class
         int centerY = getPreferredSize().height / 2 - 64;
-        g.setColor(Color.green); // thiết lập màu viền
+        g.setColor(Color.black); // thiết lập màu viền
 
-        g.drawArc(centerX - 64, centerY, 128, 128, 90, 180); // vẽ nửa vòng tròn. (ô boss)
+        // g.drawArc(centerX - 64, centerY, 128, 128, 90, 180);
         // TODO draw boss1's square militaries
         // thiết lập vị trí con boss thứ nhất
         drawMilitaries(centerX - 64, centerY, controller.getGameSquares()[0], true, g);
 
         for (int i = 0, newX = centerX, newY = centerY; i < 5; i++, newX += 64) {
             // System.out.println("1 Draw at " + newX + " " + newY);
-            g.drawRect(newX, newY, 64, 64); // newX, newY là vị trí x,y của ô vuông
+            // vẽ hình vuông của computer
+            // g.drawRect(newX, newY, 64, 64); // newX, newY là vị trí x,y của ô vuông
             // TODO draw militaries of 1
             // vị trí đặt quân của máy
-            drawmilitaries(newX, newY, controller.getGameSquares()[i + 1].getMilitaries(), g);
+            drawmilitaries(newX, newY, controller.getGameSquares()[i +
+                    1].getMilitaries(), g);
 
-            g.drawRect(newX, newY + 64, 64, 64);
-            // TODO draw militaries of 2
-            // vị trí đăt quân ở bên phía mình
+            // g.drawRect(newX, newY + 64, 64, 64);// vẽ hình vuông phía mình
+            // // TODO draw militaries of 2
+            // // vị trí đăt quân ở bên phía mình
             drawmilitaries(newX, newY + 64,
-                    controller.getGameSquares()[controller.getGameSquares().length - 1 - i].getMilitaries(), g);
-            // System.out.println("2 Draw at " + newX + " " + (newY + 64));
+                    controller.getGameSquares()[controller.getGameSquares().length - 1 -
+                            i].getMilitaries(),
+                    g);
+            // // System.out.println("2 Draw at " + newX + " " + (newY + 64));
         }
+
         // vẽ nửa vòng tròn phía bên phải
-        g.drawArc(centerX + 4 * 64, centerY, 128, 128, 270, 180);
+        // g.drawArc(centerX + 4 * 64, centerY, 128, 128, 270, 180);
         // TODO draw boss2's square militaries
         // vẽ con boss thứ 2
-        drawMilitaries(centerX + 5 * 64 + 27, centerY, controller.getGameSquares()[6], false, g);
+        drawMilitaries(centerX + 5 * 64 + 27, centerY,
+                controller.getGameSquares()[6], false, g);
 
         // player's 1 inventory
-        // vẽ ô vuông và vị trí ô vuông nhận phần thưởng của đối thủ
-        g.drawRect(250, 60, 128, 80);
+        // g.drawRect(250, 60, 128, 80);
 
-        // TODO draw img that relate with militaries of pl2
+        // // TODO draw img that relate with militaries of pl2
         int player1militaries = controller.getMilitary(Player.PLAYER_2);
-        drawmilitaries(250 + 32, 60, player1militaries, g); // vị trí nhận phần thưởng (nhận quân) của máy
+        drawmilitaries(250 + 32, 60, player1militaries, g); // vị trí nhận phần
+        // thưởng (nhận quân) của má,nm y
 
-        // player's 2 inventory
-        // vẽ ô vuông và vị trí ô vuông nhận phần thưởng của mình
-        g.drawRect(getPreferredSize().width - 250 - 128, getPreferredSize().height - 60 - 85, 128, 80);
-        // TODO draw img that relate with militaries of pl1
+        // // player's 2 inventory
+        // g.drawRect(getPreferredSize().width - 250 - 128, getPreferredSize().height -
+        // 60 - 85, 128, 80);
+        // // TODO draw img that relate with militaries of pl1
         int player2militaries = controller.getMilitary(Player.PLAYER_1);
-        drawmilitaries(getPreferredSize().width - 250 - 128 + 32, getPreferredSize().height - 60 - 85,
-                player2militaries, g);//// vị trí nhận phần thưởng (nhận quân) của mình
+        drawmilitaries(getPreferredSize().width - 250 - 128 + 32,
+                getPreferredSize().height - 60 - 85,
+                player2militaries, g);
     }
 
     // thiết lập hiển thị số quân ở ô vuông
@@ -259,6 +266,7 @@ public class GameView extends JPanel implements IView {
         g.drawImage(loadedImg, x, y, null); // x, y là tọa độ x, y
 
         if (playermilitaries > 5) {
+            g.setFont(new Font("Roboto", Font.PLAIN, 18));
             g.drawString("+" + (playermilitaries - 5), x + 64 / 2, y + 64 / 2);
         }
     }
@@ -285,12 +293,12 @@ public class GameView extends JPanel implements IView {
     public void toMessage(String mess) {
         Graphics g = getGraphics();
         g.setFont(new Font("tahoma", Font.ITALIC, 34));
-        g.setColor(Color.red);
+        g.setColor(Color.white);
         g.drawString(mess, (getPreferredSize().width / 2) - ((mess.length() * 34) / 4),
-                (getPreferredSize().height / 2));
+                (getPreferredSize().height / 2 - 100));
 
         try {
-            Thread.sleep(500); // thời gian hiển thị thông báo
+            Thread.sleep(700);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -301,7 +309,7 @@ public class GameView extends JPanel implements IView {
         try {
             paintImmediately(new Rectangle(getPreferredSize()));
             if (isDelay)
-                Thread.sleep(200); // thời gian rải quân
+                Thread.sleep(350); // thời gian rải quân
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
