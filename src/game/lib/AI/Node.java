@@ -124,10 +124,10 @@ public class Node {
       res.direction = direction;
       Node.move(res.squareIndex, res.direction, res.currentPlayer, res.gameBoard);
       res.evaluation();
-      // System.out.println("on moving " + res.p1 + " | " + res.p2
-      // + " squareIndex: " + res.squareIndex
-      // + " dir: " + res.direction.name()
-      // + " evaluation " + res.h);
+      System.out.println("on moving " + res.p1 + " | " + res.p2
+            + " squareIndex: " + res.squareIndex
+            + " dir: " + res.direction.name()
+            + " evaluation " + res.h);
       count++;
       System.out.println("count = " + count);
       return res;

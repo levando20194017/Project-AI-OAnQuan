@@ -41,7 +41,6 @@ public class GameController implements IController {
     public void autoSearch() {
         ComputerDecisionResult rs = gameModel.autoSearch();
         move(rs.squareIndex, rs.dir, Player.PLAYER_2.isComputer() ? Player.PLAYER_2 : Player.PLAYER_1);
-        System.out.println("Computer do move:" + rs.squareIndex + " " + rs.dir);
     }
 
     // kiểm tra người chơi hiện tại có phải là máy ko
@@ -83,14 +82,11 @@ public class GameController implements IController {
             view.updateView(true); // giao diện
 
         }
-        GameSquare lastestLoopedSquare = squares.next();
-        // System.out.println("On gameModelApdater In Move : lastestLooped : " +
-        // lastestLooped.getIndex() + " direction "
-        // + gameModel.getLastestLoopedDirection().name());
+        GameSquare latestLoopedSquare = squares.next();
 
-        if (lastestLoopedSquare.getMilitaries() == 0 // nếu ô cuối cùng ko có quân nào
-                && lastestLoopedSquare.getSquareIndex() != BOSS_1
-                && lastestLoopedSquare.getSquareIndex() != BOSS_2) {
+        if (latestLoopedSquare.getMilitaries() == 0 // nếu ô cuối cùng ko có quân nào
+                && latestLoopedSquare.getSquareIndex() != BOSS_1
+                && latestLoopedSquare.getSquareIndex() != BOSS_2) {
             GameSquare nextLoop = squares.next(); // trỏ sang ô kế tiếp và kiểm tra
 
             int nextMil = gameModel.getMilitaryAt(nextLoop.getSquareIndex()); // lấy số quân ở ô kế tiếp gắn cho nextMil
@@ -120,8 +116,8 @@ public class GameController implements IController {
                 }
             }
         }
-        if (lastestLoopedSquare.getMilitaries() != 0) { // nếu ô cuoosu != 0 và ko phải ô boss thì di chuyển tiếp
-            move(lastestLoopedSquare.getSquareIndex(), gameModel.getLatestLoopDirection(), curPlayer);
+        if (latestLoopedSquare.getMilitaries() != 0) { // nếu ô cuoosu != 0 và ko phải ô boss thì di chuyển tiếp
+            move(latestLoopedSquare.getSquareIndex(), gameModel.getLatestLoopDirection(), curPlayer);
         }
     }
 

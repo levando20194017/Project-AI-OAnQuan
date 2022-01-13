@@ -173,9 +173,9 @@ public class GameBoard implements IGameModel {
 
 	// trả về kết quả có hòa hay ko
 	private boolean isDraw() {
-		int totalmilitariesP1 = getAllMilitaryOfPlayer(Player.PLAYER_1);
-		int totalmilitariesP2 = getAllMilitaryOfPlayer(Player.PLAYER_2);
-		return totalmilitariesP1 == totalmilitariesP2;
+		int totalMilitariesP1 = getAllMilitaryOfPlayer(Player.PLAYER_1);
+		int totalMilitariesP2 = getAllMilitaryOfPlayer(Player.PLAYER_2);
+		return totalMilitariesP1 == totalMilitariesP2;
 	}
 
 	// phần thưởng

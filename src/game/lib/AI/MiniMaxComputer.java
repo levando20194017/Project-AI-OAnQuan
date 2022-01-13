@@ -21,7 +21,7 @@ public class MiniMaxComputer implements IAutoSearching {
         if (terminalTest(currentNode, currentNodeDepth, maxDepth)) {
             return currentNode.h;
         }
-        
+
         int v = Integer.MIN_VALUE;
         for (Node successor : currentNode.successors()) {
             if (successor == null)
@@ -48,7 +48,7 @@ public class MiniMaxComputer implements IAutoSearching {
         return v;
     }
 
-    private boolean terminalTest(Node currentNode, int currentNodeDepth, int maxDepth) {
+    private boolean     terminalTest(Node currentNode, int currentNodeDepth, int maxDepth) {
         if (currentNodeDepth == maxDepth)
             return true;
         return currentNode.gameBoard.isEndGame();
