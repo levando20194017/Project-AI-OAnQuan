@@ -292,7 +292,7 @@ public class GameBoard implements IGameModel {
 
 	// thiết lập lại game mới
 	@Override
-	public void reAssign() {
+	public void reassign() {
 		initGameSquares();
 		Player.PLAYER_1.militaries = 0;
 		Player.PLAYER_2.militaries = 0;

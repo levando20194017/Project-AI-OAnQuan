@@ -3,6 +3,10 @@ package game.model;
 import game.lib.AI.ComputerDecisionResult;
 
 public interface IGameModel extends Iterable<GameSquare> {
+	GameSquare[] getGameSquares();
+
+	ComputerDecisionResult autoSearch();
+
 	// when end game, compare their militaries to select the winner
 	Player winner(Player player1, Player player2);
 
@@ -18,12 +22,6 @@ public interface IGameModel extends Iterable<GameSquare> {
 	// get edible militaries
 	void getRewardInSquare(Player player, int index);
 
-	// depends on the last square is the boss or civilian
-	Direction getLatestLoopDirection();
-
-	// left or right
-	void setLoopDirection(Direction direction);
-
 	// basic action
 	void addMilitaries(int index, int numberMilitaries);
 
@@ -37,20 +35,24 @@ public interface IGameModel extends Iterable<GameSquare> {
 		return militaries;
 	}
 
-	void setFirstIndexOfLoop(int index);
+	// depends on the last square is the boss or civilian
+	Direction getLatestLoopDirection();
 
-	GameSquare[] getGameSquares();
+	// left or right
+	void setLoopDirection(Direction direction);
+
+	void setFirstIndexOfLoop(int index);
 
 	boolean isValidMove(int c, int r, Player curPlayer);
 
-	void reAssign();
-
-	ComputerDecisionResult autoSearch();
+	// replay game
+	void reassign();
 
 	void setGameLevel(int inputGameLevel);
 
+	// spread militaries when the player does have militaries on board
 	void outMilitaries(Player curPlayer);
 
+	// ...
 	void outMilitariesIf(Player curPlayer);
-
 }
