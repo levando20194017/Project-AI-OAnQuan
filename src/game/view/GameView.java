@@ -157,7 +157,7 @@ public class GameView extends JPanel implements IView {
     // giới hạn nè
     protected boolean isInBound(int c, int r) {
         // System.out.println(c + " " + r);
-        return (c >= 0 && c <= 5) && (r == 0 || r == 1);
+        return (c >= 0 && c <= 5) && (r == 1);
         // vị trí có thể click chuột vào
     }
 

@@ -286,7 +286,7 @@ public class GameBoard implements IGameModel {
 		// column row
 		if (r == 0 && curPlayer == Player.PLAYER_2)// nếu row = 0, tức là hàng dân phía người chơi thứ 2
 			return true;
-		if (r == 1 && curPlayer == Player.PLAYER_1) // nếu row = 1, tức là hàng dân phía người chơi thứ 2
+		if (r == 1 && curPlayer == Player.PLAYER_1) // nếu row = 1, tức là hàng dân phía người chơi thứ 1
 			return true;
 		return false;
 	}
