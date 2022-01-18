@@ -330,15 +330,15 @@ public class GameBoard implements IGameModel {
 	@Override
 	public ComputerDecisionResult autoSearch() {
 		ComputerDecisionResult rs = null;
-		if (level <= 5)
+		if (level < 5)
 			if (computer == null) {
 				computer = new MiniMax();
 				System.out.println("\nMINIMAX\n");
 			}
-		if (level > 5)
+		if (level >= 5)
 			if (computer == null || computer instanceof MiniMax) {
 				computer = new AlphaBetaPruning();
-				System.out.println("\nAlpha-Beta\n");
+				System.out.println("\nAlpha-Beta-Pruning\n");
 			}
 
 		rs = computer.search(this, Player.PLAYER_1.isComputer() ? Player.PLAYER_1 : Player.PLAYER_2,
@@ -390,8 +390,3 @@ public class GameBoard implements IGameModel {
 		}
 	}
 }
-
-// public Iterator
-// public GameSquare getlatestLoopSquare()
-// public ComputerDecisionResult autoSearch()
-// public void setFirstIndexOfLoop(int index)
