@@ -2,10 +2,10 @@ package game.model;
 
 import java.util.Iterator;
 
-import game.lib.AI.AlphaBetaPruningComputer;
-import game.lib.AI.IAutoSearching;
-import game.lib.AI.ComputerDecisionResult;
-import game.lib.AI.MiniMaxComputer;
+import game.AI.AlphaBetaPruning;
+import game.AI.ComputerDecisionResult;
+import game.AI.IAutoSearching;
+import game.AI.MiniMax;
 
 public class GameBoard implements IGameModel {
 	private int squareIndex = 0;
@@ -332,12 +332,12 @@ public class GameBoard implements IGameModel {
 		ComputerDecisionResult rs = null;
 		if (level <= 5)
 			if (computer == null) {
-				computer = new MiniMaxComputer();
+				computer = new MiniMax();
 				System.out.println("\nMINIMAX\n");
 			}
 		if (level > 5)
-			if (computer == null || computer instanceof MiniMaxComputer) {
-				computer = new AlphaBetaPruningComputer();
+			if (computer == null || computer instanceof MiniMax) {
+				computer = new AlphaBetaPruning();
 				System.out.println("\nAlpha-Beta\n");
 			}
 

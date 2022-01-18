@@ -1,6 +1,6 @@
 package game.model;
 
-import game.lib.AI.ComputerDecisionResult;
+import game.AI.ComputerDecisionResult;
 
 public interface IGameModel extends Iterable<GameSquare> {
 	GameSquare[] getGameSquares();

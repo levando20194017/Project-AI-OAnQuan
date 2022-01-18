@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 import javax.swing.JOptionPane;
 
-import game.lib.AI.ComputerDecisionResult;
+import game.AI.ComputerDecisionResult;
 import game.model.Direction;
 import game.model.GameSquare;
 import game.model.GameState;
@@ -25,6 +25,26 @@ public class GameController implements IController {
     public GameController(IView v, IGameModel m) {
         this.view = v;
         this.gameModel = m;
+    }
+
+    private int getInputGameLevel() {
+        String[] options = new String[] { "Easy", "Medium", "Hard", "Super Hard" };
+        final int EASY = 0, MEDIUM = 1, HARD = 2, SUPER_HARD = 3;
+
+        int inputLevel = JOptionPane.showOptionDialog(null, "Please choose the level of the game", "",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+
+        int level = 0;
+        if (inputLevel == EASY)
+            level = 3;
+        if (inputLevel == MEDIUM)
+            level = 5;
+        if (inputLevel == HARD)
+            level = 7;
+        if (inputLevel == SUPER_HARD)
+            level = 9;
+        return level;
     }
 
     @Override
@@ -263,22 +283,4 @@ public class GameController implements IController {
 
     }
 
-    private int getInputGameLevel() {
-        String[] options = new String[] { "Easy", "Medium", "Hard", "Super Hard" };
-        final int EASY_OP = 0, MEDIUM_OP = 1, HARD_OP = 2, SU_HAR_OP = 3;
-
-        int inputLevel = JOptionPane.showOptionDialog(null, "Please choice your enemy!", "", JOptionPane.DEFAULT_OPTION,
-                JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
-
-        int level = -1;
-        if (inputLevel == EASY_OP)
-            level = 3;
-        if (inputLevel == MEDIUM_OP)
-            level = 5;
-        if (inputLevel == HARD_OP)
-            level = 7;
-        if (inputLevel == SU_HAR_OP)
-            level = 9;
-        return level;
-    }
 }

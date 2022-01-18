@@ -1,9 +1,9 @@
-package game.lib.AI;
+package game.AI;
 
 import game.model.GameBoard;
 import game.model.Player;
 
-public class MiniMaxComputer implements IAutoSearching {
+public class MiniMax implements IAutoSearching {
     private ComputerDecisionResult minimaxDecision(GameBoard gameBoard, Player mover, Player op, int maxDepth) {
         if (maxDepth == 0)
             return null;

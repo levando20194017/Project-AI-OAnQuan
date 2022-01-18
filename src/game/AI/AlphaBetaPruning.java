@@ -1,4 +1,4 @@
-package game.lib.AI;
+package game.AI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.List;
 import game.model.GameBoard;
 import game.model.Player;
 
-public class AlphaBetaPruningComputer implements IAutoSearching {
+public class AlphaBetaPruning implements IAutoSearching {
 
     private ComputerDecisionResult alphaBetaSearch(GameBoard gameBoard, Player player1, Player player2, int maxDepth) {
         int alpha = Integer.MIN_VALUE; // maximizing

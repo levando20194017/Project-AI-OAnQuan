@@ -1,4 +1,4 @@
-package game.lib.AI;
+package game.AI;
 
 import java.util.Iterator;
 
