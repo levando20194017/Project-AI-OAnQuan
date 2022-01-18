@@ -130,7 +130,7 @@ public class GameController implements IController {
 
     @Override
     public void reStart() { // game mới
-        gameModel.reAssign();
+        gameModel.reassign();
     }
 
     @Override
