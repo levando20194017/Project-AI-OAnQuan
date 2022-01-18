@@ -72,7 +72,7 @@ public class GameController implements IController {
         gameModel.setLoopDirection(moveDirection);// thiết lập hướng di chuyển
         gameModel.setFirstIndexOfLoop(index);//
 
-        int mitalries = gameModel.getAndRemoveMilitaryAt(index); // bốc quân lên
+        int mitalries = gameModel.getAndRemoveMilitariesAt(index); // bốc quân lên
         if (mitalries == 0)
             return;
         Iterator<GameSquare> squares = gameModel.iterator();
@@ -89,25 +89,27 @@ public class GameController implements IController {
                 && latestLoopedSquare.getSquareIndex() != BOSS_2) {
             GameSquare nextLoop = squares.next(); // trỏ sang ô kế tiếp và kiểm tra
 
-            int nextMil = gameModel.getMilitaryAt(nextLoop.getSquareIndex()); // lấy số quân ở ô kế tiếp gắn cho nextMil
+            int nextMil = gameModel.getMilitariesAt(nextLoop.getSquareIndex()); // lấy số quân ở ô kế tiếp gắn cho
+                                                                                // nextMil
             if (nextMil > 0) {
                 if (nextLoop.isBossSquare()) { // kiểm tra nếu là ô boss
                     nextLoop.setBossSquare(false);
                 }
                 curPlayer.militaries += nextMil; // cộng điểm cho người chơi lần ăn ô thứ nhất
-                gameModel.removeMiltaryAt(nextLoop.getSquareIndex()); // sau khi bốc số quân lên thì mình remove cái ô
-                                                                      // đấy (số quân lúc này = 0)
+                gameModel.removeMilitariesAt(nextLoop.getSquareIndex()); // sau khi bốc số quân lên thì mình remove cái
+                                                                         // ô
+                                                                         // đấy (số quân lúc này = 0)
                 System.out.println("mutil getting reward at " + nextLoop.getSquareIndex());
                 nextLoop = squares.next(); // sang ô kế tiếp để kiểm tra các ô sau có được tính điểm ko
                 while (nextLoop.getMilitaries() == 0) {
                     nextLoop = squares.next();
-                    int n = gameModel.getMilitaryAt(nextLoop.getSquareIndex());
+                    int n = gameModel.getMilitariesAt(nextLoop.getSquareIndex());
                     if (n == 0) {
                         break;
                     }
                     if (nextLoop.isBossSquare())
                         nextLoop.setBossSquare(false);
-                    gameModel.removeMiltaryAt(nextLoop.getSquareIndex());
+                    gameModel.removeMilitariesAt(nextLoop.getSquareIndex());
                     curPlayer.militaries += n; // cộng điểm cho người chơi hiện tại và remove ô vuông đấy
                     // sau đó kiểm tra sang các ô tiếp theo, người chơi được tính điểm nếu sole với
                     // ô vuông ko có quân
@@ -134,7 +136,7 @@ public class GameController implements IController {
     @Override
     public boolean canMoveAt(int c, int r) {
         int index = c + (r * 5 + (r > 0 ? 1 : 0));
-        return gameModel.getMilitaryAt(index) > 0;
+        return gameModel.getMilitariesAt(index) > 0;
     }
 
     @Override

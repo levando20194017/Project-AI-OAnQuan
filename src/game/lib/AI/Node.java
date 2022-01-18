@@ -66,7 +66,7 @@ public class Node {
       gameBoard.setLoopDirection(direction);
       gameBoard.setFirstIndexOfLoop(squareIndex);
 
-      int militaries = gameBoard.getAndRemoveMilitaryAt(squareIndex); // số dân bốc lên để rải
+      int militaries = gameBoard.getAndRemoveMilitariesAt(squareIndex); // số dân bốc lên để rải
       if (militaries == 0)
          return;
 
@@ -89,20 +89,20 @@ public class Node {
             nextOfEmptySquare.setBossSquare(false);
          }
 
-         int Militaries = gameBoard.getMilitaryAt(nextOfEmptySquare.getSquareIndex());
+         int Militaries = gameBoard.getMilitariesAt(nextOfEmptySquare.getSquareIndex());
          if (Militaries > 0) {
             curPlayer.militaries += Militaries; // cộng điểm cho người chơi
-            gameBoard.removeMiltaryAt(nextOfEmptySquare.getSquareIndex()); // xóa số dân vừa ăn được
+            gameBoard.removeMilitariesAt(nextOfEmptySquare.getSquareIndex()); // xóa số dân vừa ăn được
             nextOfEmptySquare = squares.next(); // tiếp tục vòng lặp để xét trường hợp ăn sole cách nhau 1 ô trống
             while (nextOfEmptySquare.getMilitaries() == 0) {
                nextOfEmptySquare = squares.next();
-               int n = gameBoard.getMilitaryAt(nextOfEmptySquare.getSquareIndex());
+               int n = gameBoard.getMilitariesAt(nextOfEmptySquare.getSquareIndex());
                if (n == 0) {
                   break;
                }
                if (nextOfEmptySquare.isBossSquare())
                   nextOfEmptySquare.setBossSquare(false);
-               gameBoard.removeMiltaryAt(nextOfEmptySquare.getSquareIndex());
+               gameBoard.removeMilitariesAt(nextOfEmptySquare.getSquareIndex());
                curPlayer.militaries += n;
                nextOfEmptySquare = squares.next();
             }
@@ -116,7 +116,7 @@ public class Node {
    }
 
    private Node moveSquare(Node parent, GameBoard gameBoard, int squareIndex, Direction direction) {
-      if (gameBoard.getMilitaryAt(squareIndex) == 0) {
+      if (gameBoard.getMilitariesAt(squareIndex) == 0) {
          return null;
       }
       Node res = new Node(parent, gameBoard, p1, p2);
@@ -124,12 +124,11 @@ public class Node {
       res.direction = direction;
       Node.move(res.squareIndex, res.direction, res.currentPlayer, res.gameBoard);
       res.evaluation();
-      System.out.println("on moving " + res.p1 + " | " + res.p2
-            + " squareIndex: " + res.squareIndex
-            + " dir: " + res.direction.name()
-            + " evaluation " + res.h);
+      // System.out.println("on moving " + res.p1 + " | " + res.p2
+      // + " squareIndex: " + res.squareIndex
+      // + " dir: " + res.direction.name()
+      // + " evaluation " + res.h);
       count++;
-      System.out.println("count = " + count);
       return res;
    }
 
@@ -193,6 +192,7 @@ public class Node {
 
    public static ComputerDecisionResult getPath(Node currentNode) {
       System.out.println("On getPath : currentNode == null ? " + (currentNode == null));
+      System.out.println("count = " + count);
       Node rs = null;
       while (currentNode.parent != null) {
          rs = currentNode;

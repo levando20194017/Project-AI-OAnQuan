@@ -182,20 +182,19 @@ public class GameBoard implements IGameModel {
 	@Override
 	public void getRewardInSquare(Player player, int index) {
 		player.militaries += linkedNodeSquare[index].square.getMilitaries();
-		// linkedNodeSquare[index].square.getMilitaries() số quân trông ô ở vị trí index
 		// sau khi nhận được phần thưởng thì set lại số quân của ô đấy về 0
 		linkedNodeSquare[index].square.setMilitaries(0);
 	}
 
 	// số quân ở vị trí index
 	@Override
-	public int getMilitaryAt(int index) {
+	public int getMilitariesAt(int index) {
 		return linkedNodeSquare[index].square.getMilitaries();
 	}
 
 	// set số lượng quân của ô ở vị trí index về 0
 	@Override
-	public void removeMiltaryAt(int index) {
+	public void removeMilitariesAt(int index) {
 		if (index < 0 || index >= gameBoard.length)
 			return;
 		linkedNodeSquare[index].square.setMilitaries(0);
@@ -203,7 +202,7 @@ public class GameBoard implements IGameModel {
 
 	// thêm quân vào vị trí index với số lượng numberMiltary
 	@Override
-	public void addMiltaries(int index, int numberMiltary) {
+	public void addMilitaries(int index, int numberMiltary) {
 		linkedNodeSquare[index].square.setMilitaries(gameBoard[index].getMilitaries() + numberMiltary);
 	}
 
@@ -332,11 +331,15 @@ public class GameBoard implements IGameModel {
 	public ComputerDecisionResult autoSearch() {
 		ComputerDecisionResult rs = null;
 		if (level <= 5)
-			if (computer == null)
+			if (computer == null) {
 				computer = new MiniMaxComputer();
+				System.out.println("\nMINIMAX\n");
+			}
 		if (level > 5)
-			if (computer == null || computer instanceof MiniMaxComputer)
+			if (computer == null || computer instanceof MiniMaxComputer) {
 				computer = new AlphaBetaPruningComputer();
+				System.out.println("\nAlpha-Beta\n");
+			}
 
 		rs = computer.search(this, Player.PLAYER_1.isComputer() ? Player.PLAYER_1 : Player.PLAYER_2,
 				Player.PLAYER_1.isComputer() ? Player.PLAYER_2 : Player.PLAYER_1, level);
@@ -357,13 +360,13 @@ public class GameBoard implements IGameModel {
 		curPlayer.militaries -= 5;
 		if (curPlayer == Player.PLAYER_1) {
 			for (int i = 7; i < 7 + 5; i++) {
-				addMiltaries(i, 1);
+				addMilitaries(i, 1);
 			}
 		}
 
 		if (curPlayer == Player.PLAYER_2) {
 			for (int i = 1; i < 1 + 5; i++) {
-				addMiltaries(i, 1);
+				addMilitaries(i, 1);
 			}
 		}
 	}
@@ -375,14 +378,14 @@ public class GameBoard implements IGameModel {
 		if (curPlayer == Player.PLAYER_1) {
 			Player.PLAYER_2.militaries += 5 - markNumber;
 			for (int i = 7; i < 7 + 5; i++) {
-				addMiltaries(i, 1);
+				addMilitaries(i, 1);
 			}
 		}
 
 		if (curPlayer == Player.PLAYER_2) {
 			Player.PLAYER_1.militaries += 5 - markNumber;
 			for (int i = 1; i < 1 + 5; i++) {
-				addMiltaries(i, 1);
+				addMilitaries(i, 1);
 			}
 		}
 	}
