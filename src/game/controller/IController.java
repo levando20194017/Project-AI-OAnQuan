@@ -9,13 +9,15 @@ import game.view.GameView;
 
 public interface IController {
 
+    GameSquare[] getGameSquares();
+
     GameState getGameState();
 
     Player getCurPlayer();
 
     void autoSearch();
 
-    boolean isHasComputer();
+    boolean isComputer();
 
     boolean isValidMove(int c, int r);
 
@@ -23,13 +25,11 @@ public interface IController {
 
     boolean isOver();
 
-    void reStart();
+    void startOver();
 
     boolean canMoveAt(int c, int r);
 
-    int getMilitary(Player player1);
-
-    GameSquare[] getGameSquares();
+    int getMilitaries(Player player1);
 
     void changesOppositePlayer();
 

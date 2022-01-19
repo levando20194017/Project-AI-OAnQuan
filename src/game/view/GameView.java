@@ -66,7 +66,7 @@ public class GameView extends JPanel implements IView {
                                 if (!controller.isOver()) {
                                     controller.changesOppositePlayer(); // thay đổi người chơi
                                     toMessage("Next turn is: " + controller.getCurPlayer().getName());
-                                    if (controller.isHasComputer()) {
+                                    if (controller.isComputer()) {
                                         controller.autoSearch();
                                         controller.changesOppositePlayer();
                                         toMessage("Next turn is: " + controller.getCurPlayer().getName());
@@ -240,7 +240,7 @@ public class GameView extends JPanel implements IView {
         // g.drawRect(250, 60, 128, 80);
 
         // // TODO draw img that relate with militaries of pl2
-        int player1militaries = controller.getMilitary(Player.PLAYER_2);
+        int player1militaries = controller.getMilitaries(Player.PLAYER_2);
         drawmilitaries(250 + 32, 60, player1militaries, g); // vị trí nhận phần
         // thưởng (nhận quân) của má,nm y
 
@@ -248,7 +248,7 @@ public class GameView extends JPanel implements IView {
         // g.drawRect(getPreferredSize().width - 250 - 128, getPreferredSize().height -
         // 60 - 85, 128, 80);
         // // TODO draw img that relate with militaries of pl1
-        int player2militaries = controller.getMilitary(Player.PLAYER_1);
+        int player2militaries = controller.getMilitaries(Player.PLAYER_1);
         drawmilitaries(getPreferredSize().width - 250 - 128 + 32,
                 getPreferredSize().height - 60 - 85,
                 player2militaries, g);

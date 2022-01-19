@@ -65,7 +65,7 @@ public class GameController implements IController {
 
     // kiểm tra người chơi hiện tại có phải là máy ko
     @Override
-    public boolean isHasComputer() {
+    public boolean isComputer() {
         return curPlayer.isComputer();
     }
 
@@ -149,7 +149,7 @@ public class GameController implements IController {
     }
 
     @Override
-    public void reStart() { // game mới
+    public void startOver() { // game mới
         gameModel.reassign();
     }
 
@@ -160,7 +160,7 @@ public class GameController implements IController {
     }
 
     @Override
-    public int getMilitary(Player p) {
+    public int getMilitaries(Player p) {
         return p.militaries;
     }
 
@@ -233,7 +233,7 @@ public class GameController implements IController {
         int response = JOptionPane.showOptionDialog(null, "Do you want to replay?", "", JOptionPane.DEFAULT_OPTION,
                 JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
         if (response == 0) {
-            reStart();
+            startOver();
         } else {
             System.exit(0);
         }
