@@ -94,10 +94,12 @@ public class GameView extends JPanel implements IView {
     protected boolean rightOfHalft(int x, int y) {
         int mappingX = getMappingCol(x);
         int mappingY = getMappingRow(y);
-        System.out.println("On method RightOfHalf in GameView " + "mappringX: " + mappingX + " mappingY " + mappingY);
+        // System.out.println("On method RightOfHalf in GameView " + "mappringX: " +
+        // mappingX + " mappingY " + mappingY);
         int offX = (getPreferredSize().width / 2) - 3 * 64 + 32;
         int offY = getPreferredSize().height / 2 - 64;
-        System.out.println("On method RightOfHalf in GameView " + " offX: " + offX + " offY: " + offY);
+        // System.out.println("On method RightOfHalf in GameView " + " offX: " + offX +
+        // " offY: " + offY);
         Point buttonRe = new Point(offX + (mappingX - 1) * 64, offY + mappingY * 64);
         Point clickBound = new Point(x, y);
 

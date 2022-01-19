@@ -192,8 +192,10 @@ public class Node {
     }
 
     public static ComputerDecisionResult getPath(Node currentNode) {
-        System.out.println("On getPath : currentNode == null ? " + (currentNode == null));
+        // System.out.println("On getPath : currentNode == null ? " + (currentNode ==
+        // null));
         System.out.println(count);
+        count = 0;
         Node rs = null;
         while (currentNode.parent != null) {
             rs = currentNode;
