@@ -80,7 +80,7 @@ public class GameController implements IController {
         if (r < 0 || r > 1 || c < 0 || c > 5)
             return;
         int firstIndex = c + (r * 5 + (r > 0 ? 1 : 0));
-        System.out.println(firstIndex + " " + curPlayer.getName());
+        // System.out.println(firstIndex + " " + curPlayer.getName());
         move(firstIndex, moveDirection, curPlayer);
     }
 
@@ -119,7 +119,7 @@ public class GameController implements IController {
                 gameModel.removeMilitariesAt(nextLoop.getSquareIndex()); // sau khi bốc số quân lên thì mình remove cái
                                                                          // ô
                                                                          // đấy (số quân lúc này = 0)
-                System.out.println("mutil getting reward at " + nextLoop.getSquareIndex());
+                // System.out.println("mutil getting reward at " + nextLoop.getSquareIndex());
                 nextLoop = squares.next(); // sang ô kế tiếp để kiểm tra các ô sau có được tính điểm ko
                 while (nextLoop.getMilitaries() == 0) {
                     nextLoop = squares.next();
