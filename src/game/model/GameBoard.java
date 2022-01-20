@@ -14,7 +14,7 @@ public class GameBoard implements IGameModel {
 	private LinkNode[] linkedNodeSquare; // link a square with 2 adjacent squares
 	private LinkNode latestLoopSquare;
 	private Direction loopDirection; // is the direction the player chooses
-	private Direction lastestDirectionLooped = null;
+	private Direction latestDirectionLooped = null;
 	private IAutoSearching computer;
 
 	class LinkNode {
@@ -209,14 +209,14 @@ public class GameBoard implements IGameModel {
 	// trả về hướng đi cuối cùng được lặp lại
 	@Override
 	public Direction getLatestLoopDirection() {
-		return lastestDirectionLooped;
+		return latestDirectionLooped;
 	}
 
 	// thiết lập hướng đi ban đầu và kế tiếp
 	@Override
 	public void setLoopDirection(Direction direction) {
 		this.loopDirection = direction;
-		this.lastestDirectionLooped = direction;
+		this.latestDirectionLooped = direction;
 	}
 
 	@Override
@@ -255,9 +255,9 @@ public class GameBoard implements IGameModel {
 					}
 				}
 				if (latestLoopSquare.square.getSquareIndex() == 0 || latestLoopSquare.square.getSquareIndex() == 6) {
-					// System.out.println("before " + lastestDirectionLooped + " after "
-					// + lastestDirectionLooped.getOppositeDirection());
-					lastestDirectionLooped = lastestDirectionLooped.getOppositeDirection();
+					// System.out.println("before " + latestDirectionLooped + " after "
+					// + latestDirectionLooped.getOppositeDirection());
+					latestDirectionLooped = latestDirectionLooped.getOppositeDirection();
 				}
 
 				return ret;
