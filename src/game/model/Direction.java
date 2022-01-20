@@ -9,4 +9,11 @@ public enum Direction {
 			return Direction.RIGHT;
 		return Direction.LEFT;
 	}
+
+	// get direction
+	public String getDirection() {
+		if (this == Direction.LEFT)
+			return "LEFT";
+		return "RIGHT";
+	}
 }

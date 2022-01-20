@@ -16,7 +16,7 @@ public class Node {
     public int h; // ~ heuristic
     private Node[] successors; // All valid moves from current state
     private boolean isMaximizing;
-    public static int count = 0;
+    public static long count = 0;
 
     public Node(Node parent, GameBoard gameBoard, Player p1, Player p2) {
         this.gameBoard = gameBoard;
@@ -50,9 +50,15 @@ public class Node {
         Player computer = (p1.isComputer() ? p1 : p2);
         Player human = (p1.isComputer() ? p2 : p1);
         h = (computer.militaries) - (human.militaries);
-        // System.out.println("in evaluation squareIndex: " + squareIndex
-        // + " computer " + computer.militaries
-        // + " human " + human.militaries);
+        if (this.parent.direction == null)
+            System.out.println("parent " + this.parent.squareIndex);
+        else
+            System.out.println("parent " + this.parent.squareIndex + " " + this.parent.direction.getDirection());
+        System.out.println("in evaluation squareIndex: " + squareIndex + " " +
+                this.direction.getDirection() + " || "
+                + " computer " + computer.militaries + " || "
+                + " human " + human.militaries + " || "
+                + "h = " + h);
     }
 
     public static void move(int squareIndex, Direction direction, Player curPlayer, GameBoard gameBoard) {

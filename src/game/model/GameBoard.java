@@ -330,12 +330,12 @@ public class GameBoard implements IGameModel {
 	@Override
 	public ComputerDecisionResult autoSearch() {
 		ComputerDecisionResult rs = null;
-		// if (level < 5)
-		// if (computer == null) {
-		// computer = new MiniMax();
-		// System.out.println("\nMINIMAX\n");
-		// }
-		if (level >= 3)
+		if (level <= 5)
+			if (computer == null) {
+				computer = new MiniMax();
+				System.out.println("\nMINIMAX\n");
+			}
+		if (level > 5)
 			if (computer == null || computer instanceof MiniMax) {
 				computer = new AlphaBetaPruning();
 				System.out.println("\nAlpha-Beta-Pruning\n");

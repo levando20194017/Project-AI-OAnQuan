@@ -12,7 +12,6 @@ import game.view.GameView;
 public class Launcher {
     public static void main(String[] args) {
         JFrame f = new JFrame("O An Quan");
-
         IGameModel model = new GameBoard();
         IController controller = new GameController();
         GameView view = new GameView(new ImageLoader(), controller);

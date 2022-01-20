@@ -5,10 +5,10 @@ import game.model.Player;
 
 public class MiniMax implements IAutoSearching {
 
-    private ComputerDecisionResult minimaxDecision(GameBoard gameBoard, Player mover, Player p, int maxDepth) {
+    private ComputerDecisionResult minimaxDecision(GameBoard gameBoard, Player player1, Player player2, int maxDepth) {
         if (maxDepth == 0)
             return null;
-        Node currentNode = new Node(gameBoard, mover, p);
+        Node currentNode = new Node(gameBoard, player1, player2);
         int v = maxValue(currentNode, 0, maxDepth);
 
         for (Node node : currentNode.successors()) {
@@ -30,6 +30,7 @@ public class MiniMax implements IAutoSearching {
             successor.swapPlayer();
             v = Math.max(v, minValue(successor, currentNodeDepth + 1, maxDepth));
         }
+        System.out.println("------ MAX = " + v);
         currentNode.h = v;
         return v;
     }
@@ -45,6 +46,7 @@ public class MiniMax implements IAutoSearching {
             successor.swapPlayer();
             v = Math.min(v, maxValue(successor, currentNodeDepth + 1, maxDepth));
         }
+        System.out.println("------ MIN = " + v);
         currentNode.h = v;
         return v;
     }
