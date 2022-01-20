@@ -4,9 +4,9 @@ import javax.swing.JFrame;
 
 import game.controller.GameController;
 import game.controller.IController;
-import game.loader.ImageLoader;
 import game.model.GameBoard;
 import game.model.IGameModel;
+import game.upload.ImageLoader;
 import game.view.GameView;
 
 public class Launcher {

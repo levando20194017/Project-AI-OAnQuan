@@ -13,10 +13,10 @@ import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 
 import game.controller.IController;
-import game.loader.ImageLoader;
 import game.model.Direction;
 import game.model.GameSquare;
 import game.model.Player;
+import game.upload.ImageLoader;
 
 public class GameView extends JPanel implements IView {
     /**

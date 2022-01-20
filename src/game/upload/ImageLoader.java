@@ -1,4 +1,4 @@
-package game.loader;
+package game.upload;
 
 import java.awt.Image;
 import java.io.File;
